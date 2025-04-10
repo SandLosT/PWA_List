@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha Lista</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#6200ee" />
+</head>
+<body>
+  <h1>Minha Lista de Itens</h1>
+  <input type="text" id="itemInput" placeholder="Digite um item..." />
+  <button class='add' onclick="adicionarItem()">Adicionar</button>
+  <ul id="lista"></ul>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registrado!', reg))
+          .catch(err => console.error('Erro ao registrar SW:', err));
+      });
+    }
+  </script>
+</body>
+</html>
