@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Make It List</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+    <link rel="stylesheet" href="/styles/base/reset.css" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free-6.7.2-web/css/all.min.css" />
+    <link rel="stylesheet" href="/plugins/bootstrap-5.3.5-dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="/images/favicon/favicon-32x32.png">
+                    Make It List
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Início</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/lista">Minhas Listas</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/usuario">
+                                <i class="fa-solid fa-user"></i>
+                                Meu perfil
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <!-- Coloque aqui o conteúdo central da página -->
+             <div class="h3 mt-3 mb-3">Página HOME</div>
+
+             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">
+                <i class="fa-solid fa-folder-open"></i>
+                Abrir Modal
+             </button>
+
+             <div class="modal fade" tabindex="-1" id="modal" aria-labelledby="#modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modal-label">Título do Modal</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Corpo do modal</p>
+                      <p>Você pode inserir um formulário para cadastrar lista aqui...</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                      <button type="button" class="btn btn-primary">Salvar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+        </article>
+    </main>
+
+    <script src="/scripts/service-worker-registration.js"></script>
+    <script src="/plugins/bootstrap-5.3.5-dist/js/bootstrap.min.js"></script>
+    
+</body>
+
+</html>
