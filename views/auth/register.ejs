@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Make It List - Cadastro</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+    <%- include('../partials/styles') %>
+</head>
+
+<body>
+    
+    <% if (isAuthenticated) { %>
+        <%- include('../partials/header') %>
+    <% } else { %>
+        <%- include('../partials/unauthenticated/header') %>
+    <% } %>
+
+    <main>
+        <article>
+            <!-- Coloque aqui o conteúdo central da página -->
+        </article>
+    </main>
+
+    <%- include('../partials/scripts') %>
+
+</body>
+
+</html>

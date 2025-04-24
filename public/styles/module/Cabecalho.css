@@ -1,0 +1,13 @@
+@import '../base/variables.css';
+
+.cabecalho {
+    background-color: var(--base-color) !important;
+}
+
+    .cabecalho__logo {
+        color: white;
+    }
+
+    .cabecalho__link {
+        color: white;
+    }
