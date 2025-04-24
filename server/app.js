@@ -10,7 +10,7 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 // Middleware para JSON
 app.use(express.json());
 // static files
-const clientPath = path.join(__dirname, '..', 'client');
+const clientPath = path.join(__dirname, '..', 'public');
 
 app.use(express.json());
 
@@ -52,6 +52,14 @@ app.use(express.static(clientPath));
   });
   app.get('/lista/visualizar', (req, res) => {
     res.sendFile(path.join(clientPath, 'pages', 'lista', 'visualizar.html'));
+  });
+
+//crud de usuarios
+  app.get('/usuario', (req, res) => {
+    res.sendFile(path.join(clientPath, 'pages', 'usuario', 'index.html'));
+  });
+  app.get('/usuario/editar', (req, res) => {
+    res.sendFile(path.join(clientPath, 'pages', 'usuario', 'editar.html'));
   });
 
 module.exports =  app;
