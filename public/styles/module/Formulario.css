@@ -1,0 +1,17 @@
+@import '../base/variables.css';
+
+.formulario {
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.formulario--login {
+    margin: auto;
+    max-width: 600px;
+}
+
+.formulario__botao--enviar {
+    background-color: var(--base-color) !important;
+    color: white !important;
+    width: 100% !important;
+}

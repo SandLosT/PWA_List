@@ -14,7 +14,11 @@ router.get('/register', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    // destruir a sessão do usuário
+    res.redirect("/auth/login")
+})
+
+router.post('/login', (req, res) => {
+    res.redirect('/')
 })
 
 module.exports = router

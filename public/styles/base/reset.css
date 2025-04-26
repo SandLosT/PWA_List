@@ -1,3 +1,11 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+}
+
 a {
     text-decoration: none;
 }
@@ -14,8 +22,4 @@ input:focus {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
 }
