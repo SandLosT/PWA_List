@@ -8,6 +8,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 // view engine
 app.set('view engine', 'ejs')
 
+app.use(express.json())
+
 // controllers
 var authController = require('./controllers/authController')
 var homeController = require('./controllers/homeController')

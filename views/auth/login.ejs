@@ -8,8 +8,30 @@
   <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
   <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="/styles/module/Formulario.css">
-  <link rel="stylesheet" href="/styles/module/Login.css">
   <%- include('../partials/styles') %>
+  <style>
+    .carousel {
+      height: 100%;
+    }
+
+    .carousel-inner,
+    .carousel-item,
+    .carousel-item img {
+      height: 100%;
+    }
+
+    .carousel-item img {
+      filter: brightness(50%);
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media only screen and (max-width: 1200px) {
+      article section:first-child {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -20,10 +42,10 @@
   <%- include('../partials/unauthenticated/header') %>
   <% } %>
 
-  <main id="main">
-    <article id="article">
+  <main class="overflow-hidden">
+    <article class="d-flex align-items-stretch h-100">
 
-      <section>
+      <section class="overflow-x-hidden overflow-y-auto" style="flex:1">
         <div id="appCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
             <button type="button" data-bs-target="#appCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -70,7 +92,7 @@
         </div>
       </section>
 
-      <section class="d-flex align-items-center">
+      <section class="d-flex align-items-center overflow-x-hidden overflow-y-auto py-4 px-3" style="flex:1">
         <form class="formulario formulario--login needs-validation" onsubmit="validarFormulario(event)" method="post" action="/auth/login" novalidate>
           <div class="h3 mb-5 text-center fw-bold">Fazer login</div>
           <div class="form-floating mb-3">
@@ -110,11 +132,8 @@
       if (!e.target.checkValidity()) {
         e.preventDefault()
         e.stopPropagation()
-
-        console.log('form is not valid')
       }
       e.target.classList.add("was-validated")
-      console.log('form is valid')
     }
   </script>
 

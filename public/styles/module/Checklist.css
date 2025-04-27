@@ -1,0 +1,30 @@
+@import '../base/variables.css';
+
+.checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem auto;
+}
+
+    .checklist__item {
+        align-items: center;
+        background-color: rgba(0 , 0, 0, 0.15);
+        display: flex;
+        font-weight: 500;
+        gap: 1rem;
+        margin: auto;
+        width: 100%;
+        padding: 1rem 1.5rem;
+    }
+
+    .checklist__checkbox {
+        border: 1px dashed black;
+        outline: 1px dashed black;
+        transform: scale(1.5);
+    }
+
+    .checklist__link {
+        color: var(--base-color);
+        font-weight: bold;
+    }

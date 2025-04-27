@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var path = require('path')
 
 router.get('/login', (req, res) => {
     res.render('auth/login', {
@@ -19,6 +20,15 @@ router.get('/logout', (req, res) => {
 
 router.post('/login', (req, res) => {
     res.redirect('/')
+})
+
+router.post('/register', (req, res) => {
+    // cadastrar o usuário
+    var body = req.body
+    console.log("request body:")
+    console.log(body)
+
+    res.json(true)
 })
 
 module.exports = router
