@@ -7,27 +7,73 @@
     <title>Make It List - Visualizar Lista</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
     <%- include('../partials/styles') %>
+    <style>
+        a {
+            color: unset;
+        }
+    </style>
 </head>
 
 <body>
     
     <%- include('../partials/header') %>
 
-    <main id="main">
-        <article id="article">
-            <!-- Coloque aqui o conteúdo central da página -->
-            <h3 class="mt-3 mb-3">
-                Visualizar
-                <span style="color:#69247C">
-                    lista n° 001
-                </span>
-            </h3>
-            <hr />
+    <main>
+        <article class="px-3">
+             <section>
+                <div>
+                    <h3 class="mt-3 mb-3">
+                        Visualizar lista
+                    </h3>
+                    <hr />
+                </div>
+                <div class="container p-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="etiqueta etiqueta--lista etiqueta--small">
+                            <div class="etiqueta__titulo">
+                                <%= titulo %>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-lg" onclick="excluirLista(<%= id %>)">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="">
+                        <a class="text-center d-block mb-4" style="color:#7F07F0;font-size:1.1rem;text-decoration:underline;" href="/item/criar/<%= id %>">
+                            <i class="fa-solid fa-plus"></i>
+                            Adicionar item
+                        </a>
+                        <% for (var item of itens) { %>
+                            <div class="etiqueta etiqueta--item etiqueta--small etiqueta--dark mb-2">
+                                <div class="etiqueta__conteudo">
+                                    <div class="etiqueta__titulo etiqueta__titulo--light">
+                                        <%= item.nome %>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm" onclick="excluirItem(<%= item.id %>)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+             </section>
         </article>
     </main>
 
     <%- include('../partials/scripts') %>
+
+    <script>
+        function excluirLista(id) {
+
+        }
+
+        function excluirItem(id) {
+            
+        }
+    </script>
 
 </body>
 

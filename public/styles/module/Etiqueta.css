@@ -1,0 +1,70 @@
+@import '../base/variables.css';
+
+.etiqueta {
+    align-items: center;
+    border-radius: .85rem;
+    color: white;
+    display: flex;
+    margin-bottom: 1rem;
+    padding: 1rem 1.2rem;
+    width: 100%;
+}
+
+.etiqueta--small {
+    margin: 0;
+    padding: 0.25rem 1rem;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+}
+
+.etiqueta--dark {
+    color: black;
+}
+
+.etiqueta--lista {
+    background-color: var(--base-color);
+}
+
+.etiqueta--item {
+    background-color: rgba(0 , 0, 0, 0.15);
+}
+
+    .etiqueta__conteudo {
+        flex: 1;
+    }
+
+    .etiqueta__titulo {
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .etiqueta__titulo--light {
+        font-weight: 500 !important;
+        opacity: .5;
+    }
+    
+    .etiqueta__titulo:hover {
+        text-decoration: underline;
+    }
+
+    .etiqueta--small .etiqueta__titulo {
+        cursor: default;
+        font-weight: 400;
+    }
+    
+    .etiqueta--small .etiqueta__titulo:hover {
+        text-decoration: none;
+    }
+
+    .etiqueta__descricao {
+        font-weight: 400;
+    }
+
+    .etiqueta__icone {
+        cursor: pointer;
+        font-size: 2rem;
+    }
+
+    .etiqueta__icone:hover {
+        opacity: .8;
+    }
