@@ -44,11 +44,13 @@
     .etiqueta__titulo {
         cursor: pointer;
         font-weight: bold;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
     
     .etiqueta__titulo--light {
-        font-weight: 500 !important;
-        opacity: .5;
+        font-weight: 400 !important;
     }
 
     .etiqueta--small .etiqueta__titulo {
@@ -58,6 +60,12 @@
 
     .etiqueta__descricao {
         font-weight: 400;
+    }
+
+    .etiqueta--small .etiqueta__descricao {
+        font-size: .75rem;
+        font-weight: 400;
+        color: rgba(0, 0, 0, .5);
     }
 
     .etiqueta__icone {

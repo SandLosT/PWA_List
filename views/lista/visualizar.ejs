@@ -7,6 +7,7 @@
     <title>Make It List - Visualizar Lista</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Botao.css" />
     <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
     <%- include('../partials/styles') %>
     <style>
@@ -24,12 +25,15 @@
         <article class="px-3">
              <section>
                 <div>
-                    <h3 class="mt-3 mb-3">
-                        Visualizar lista
-                    </h3>
+                    <div class="d-flex align-items-center mt-3 mb-3">
+                        <a class="btn btn-ligth" href="/lista">
+                            <i class="fa-solid fa-left-long"></i>
+                        </a>
+                        <h3 class="m-0">Visualizar Lista</h3>
+                    </div>
                     <hr />
                 </div>
-                <div class="container p-0">
+                <div class="container p-0" style="max-width: 800px;">
                     <div class="d-flex align-items-center mb-3">
                         <div class="etiqueta etiqueta--lista etiqueta--small">
                             <div class="etiqueta__titulo">
@@ -41,20 +45,40 @@
                         </button>
                     </div>
                     <div class="">
-                        <a class="text-center d-block mb-4" style="color:#7F07F0;font-size:1.1rem;text-decoration:underline;" href="/item/criar/<%= id %>">
+                        <a class="botao botao--link mb-4" href="/item/criar/<%= id %>">
                             <i class="fa-solid fa-plus"></i>
                             Adicionar item
                         </a>
                         <% for (var item of itens) { %>
                             <div class="etiqueta etiqueta--item etiqueta--small etiqueta--dark mb-2">
                                 <div class="etiqueta__conteudo">
-                                    <div class="etiqueta__titulo etiqueta__titulo--light">
+                                    <div class="etiqueta__titulo">
                                         <%= item.nome %>
                                     </div>
+                                    <div class="etiqueta__descricao">
+                                        R$ <%= item.preco %>
+                                    </div>
                                 </div>
-                                <button type="button" class="btn btn-sm" onclick="excluirItem(<%= item.id %>)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center" style="gap:5px">
+                                        <button type="button" class="btn btn-sm btn-danger" style="border-radius:100%" onclick="excluirItem(<%= item.id %>)">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="form-control" style="width: 50px;padding: .375rem .25rem;font-size: .75rem;" value="<%= item.quantidade %>" readonly />
+                                        <button type="button" class="btn btn-sm btn-success" style="border-radius:100%" onclick="excluirItem(<%= item.id %>)">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="dropdown ms-2">
+                                        <button type="button" class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/item/editar/<%= item.id %>">Editar</a></li>
+                                            <li><a class="dropdown-item" href="/item/excluir/<%= item.id %>">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         <% } %>
                     </div>

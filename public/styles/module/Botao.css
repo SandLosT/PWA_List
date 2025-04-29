@@ -1,0 +1,16 @@
+@import '../base/variables.css';
+
+.botao {
+    background-color: var(--base-color);
+    color: white;
+}
+
+.botao--link {
+    background-color: unset;
+    color: var(--base-color);
+    display: block;
+    font-size: 1rem;
+    margin: auto;
+    text-decoration:underline;
+    width: max-content;
+}

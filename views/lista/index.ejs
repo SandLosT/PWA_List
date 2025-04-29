@@ -7,6 +7,7 @@
     <title>Make It List - Minhas Listas</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Botao.css" />
     <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
     <%- include('../partials/styles') %>
     <style>
@@ -21,15 +22,19 @@
         <article class="px-3">
             <section>
                 <div>
-                    <h3 class="mt-3 mb-3">Minhas listas</h3>
+                    <div class="d-flex align-items-center mt-3 mb-3">
+                        <a class="btn btn-ligth" href="/">
+                            <i class="fa-solid fa-left-long"></i>
+                        </a>
+                        <h3 class="m-0">Minhas listas</h3>
+                    </div>
                     <hr />
                 </div>
-                <div class="container p-0">
-                    <a class="text-center d-block mb-4" style="color:#7F07F0;font-size:1.1rem;text-decoration:underline;" href="/lista/criar">
+                <div class="container p-0" style="max-width: 800px;">
+                    <a class="botao botao--link mb-4" href="/lista/criar">
                         <i class="fa-solid fa-plus"></i>
                         Criar lista
                     </a>
-    
                     <div>
                         <% for(var lista of listas) { %>
                             <a class="etiqueta etiqueta--lista" href="/lista/<%= lista.id %>">
