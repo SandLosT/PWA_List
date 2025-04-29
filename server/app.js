@@ -1,67 +1,38 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-const ejs = require('ejs');
+const express = require('express');
+const app = express();
+const path = require('path');
 
-
-
-const listaRoutes = require('./routes/listaRoutes.js');
-const itemRoutes = require('./routes/itemRoutes');
-const usuarioRoutes = require('./routes/usuarioRoutes');
-
-// Middleware para JSON
+//configuração
+// Middlewares
 app.use(express.json());
-// static files
+app.use(express.urlencoded({ extended: true }));
 
-app.set('view engine', 'html')
-app.set('views', path.join(__dirname, 'public/pages'))
-app.engine('html', ejs.renderFile)
+// View engine (EJS, Pug, Handlebars... aqui é um exemplo para EJS)
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-// 🌐 Rotas da API REST
-app.use('/api/listas', listaRoutes);
+
+
+
+// Rotas de API - que retornam json
+const itemRoutes = require('./routes/api/itemRoutes');
+const listaRoutes = require('./routes/api/listaRoutes');
+const usuarioRoutes = require('./routes/api/usuarioRoutes');
+const authRoutes = require('./routes/api/authRoutes');
+
 app.use('/api/itens', itemRoutes);
+app.use('/api/listas', listaRoutes);
 app.use('/api/usuarios', usuarioRoutes);
-// mapeamento das rotas
-// 🔗 Importação das rotas da API
+app.use('/api/auth', authRoutes);
 
+// Rotas de View - que renderizam views
+const listaViewRoutes = require('./routes/viewsRoutes/listaViewRoutes');
+const usuarioViewRoutes = require('./routes/viewsRoutes/usuarioViewRoutes');
+const authViewRoutes = require('./routes/viewsRoutes/authViewRoutes');
 
-//home
-  app.get('/', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'home', 'index.html'));
-  });
-//crud de itens
-  app.get('/item', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'item', 'index.html'));
-  });
-  app.get('/item/criar', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'item', 'criar.html'));
-  });
-  app.get('/item/editar', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'item', 'editar.html'));
-  });
-  
-//crud de listas
-  app.get('/lista', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'lista', 'index.html'));
-  });
-  app.get('/lista/criar', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'lista', 'criar.html'));
-  });
-  app.get('/lista/editar', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'lista', 'editar.html'));
-  });
-  app.get('/lista/visualizar', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'lista', 'visualizar.html'));
-  });
+app.use('/lista', listaViewRoutes);
+app.use('/usuario', usuarioViewRoutes);
+app.use('/auth', authViewRoutes);
 
-//crud de usuarios
-  app.get('/usuario', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'usuario', 'index.html'));
-  });
-  app.get('/usuario/editar', (req, res) => {
-    res.render(path.join(clientPath, 'pages', 'usuario', 'editar.html'));
-  });
-
-module.exports =  app;
-
-//arquivo de configuração do servidor
+// Exporta o app para ser usado no server.js
+module.exports = app;

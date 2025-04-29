@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Make It List - Cadastro</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/styles/module/Checklist.css">
+  <link rel="stylesheet" href="/styles/module/Formulario.css">
+  <%- include('../partials/styles') %>
+</head>
+
+<body>
+
+  <% if (isAuthenticated) { %>
+  <%- include('../partials/header') %>
+  <% } else { %>
+  <%- include('../partials/unauthenticated/header') %>
+  <% } %>
+
+  <main>
+    <article class="d-flex align-items-center h-100" id="article">
+
+      <%# Formulário de e-mail %>
+      <form id="formEmail" class="formulario formulario--login needs-validation" <%#style="display:none"%> onsubmit="validarFormularioEmail(event)" novalidate>
+        <div class="h3 mb-5 text-center fw-bold">
+          Vamos começar?
+          <br />
+          Digite o seu e-mail
+        </div>
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="email" placeholder="nome@exemplo.com" required />
+          <label for="email">E-mail</label>
+          <div class="invalid-feedback">
+            Preencha com um e-mail válido!
+          </div>
+        </div>
+        <button type="submit" class="btn formulario__botao--enviar">Avançar</button>
+        <hr class="mt-4 mb-4" />
+        <div class="text-center">
+          Já tem uma conta?
+          <a href="/auth/login">Faça login aqui</a>
+        </div>
+      </form>
+
+      <%# Formulário de senha %>
+      <form id="formSenha" class="formulario formulario--login needs-validation" style="display:none" onsubmit="validarFormularioSenha(event)" novalidate>
+        <div class="h3 mb-5 text-center fw-bold">Crie uma senha</div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="senha" placeholder="Digite sua senha..." oninput="validarSenha()" required />
+          <label for="senha">Senha</label>
+          <div class="invalid-feedback">
+            Campo obrigatório!
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="confirmarSenha" placeholder="Digite sua senha..." oninput="validarSenha()" required />
+          <label for="confirmarSenha">Confirmar senha</label>
+          <div class="invalid-feedback">
+            Confirme a sua senha!
+          </div>
+        </div>
+        <div class="mt-4 mb-4" id="formSenhaValidacoes">
+          <p class="fw-bold">A senha deve ter pelo menos</p>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="validacao-confirmarSenha" onclick="return false;" required>
+            <label class="form-check-label" for="validacao-confirmarSenha">
+              As senhas devem ser iguais
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="validacao-letra" onclick="return false;" required>
+            <label class="form-check-label" for="validacao-letra">
+              1 letra
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="validacao-numero" onclick="return false;" required>
+            <label class="form-check-label" for="validacao-numero">
+              1 número ou caractere especial (ex: @#?!)
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="validacao-tamanho" onclick="return false;" required>
+            <label class="form-check-label" for="validacao-tamanho">
+              6 caracteres
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn formulario__botao--enviar">Avançar</button>
+      </form>
+
+      <%# Formulário de nome de usuário %>
+      <form id="formUsername" class="formulario formulario--login needs-validation" style="display:none" onsubmit="validarFormularioUsername(event)" novalidate>
+        <div class="h3 mb-5 text-center fw-bold">Crie um nome de usuário</div>
+        <p>Esse será o seu nome de usuário</p>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="username" minlength="4" placeholder="Digite o seu nome de usuário.." required />
+          <label for="username">Nome de usuário</label>
+          <div class="invalid-feedback">
+            O nome de usuário deve ter pelo menos 4 caracteres!
+          </div>
+        </div>
+        <button type="submit" class="btn formulario__botao--enviar">Avançar</button>
+      </form>
+
+      <%# Formulário de termos e condições %>
+      <form id="formTermos" class="formulario formulario--login needs-validation" style="display:none" onsubmit="cadastrarUsuario(event)" novalidate>
+        <div class="h3 mb-5 text-center fw-bold">Termos e condições</div>
+        <div class="checklist">
+          <div class="checklist__item">
+            <input class="form-check-input checklist__checkbox" type="checkbox" name="termos-marketing" id="termos-marketing" />
+            <label class="text-center" for="termos-marketing">
+              Não quero receber mensagens de marketing do Make It List
+            </label>
+          </div>
+          <div class="checklist__item">
+            <input class="form-check-input checklist__checkbox" type="checkbox" name="termos-marketing" id="termos-condicoes" required />
+            <label class="text-center" for="termos-condicoes">
+              Eu concordo com os
+              <a class="checklist__link" href="#" target="_blank">Termos e Condições de Uso do Make It List</a>
+            </label>
+          </div>
+          <div class="mt-2 mb-2" style="font-size: .9rem;">
+            *É necessário concordar com os
+            <span class="fw-bold">termos e condições do aplicativo</span>
+          </div>
+          <div class="mb-3">
+            Para saber mais sobre como o Make It List coleta, utiliza, compartilha
+            e protege seus dados de usuário, leia a
+            <a class="checklist__link" href="#" target="_blank">Política de Privacidade do Aplicativo.</a>
+          </div>
+        </div>
+        <button type="submit" class="btn formulario__botao--enviar">Cadastrar</button>
+      </form>
+
+    </article>
+  </main>
+
+  <%# Formulário escondido %>
+  <form id="tempForm" action="auth/register" method="post" hidden novalidate>
+    <input type="email" name="email" id="tempEmail" />
+    <input type="password" name="senha" id="tempSenha" />
+    <input type="text" name="username" id="tempUsername" />
+    <input type="checkbox" value="true" checked="false" name="marketing" id="tempMarketing" />
+  </form>
+
+  <%- include('../partials/scripts') %>
+
+  <script>
+    function validarFormularioEmail(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      var email = document.getElementById("email").value
+
+      if (e.target.checkValidity()) {
+        $.get("/usuario/email/" + email, function(resultado) {
+          if (resultado) {
+            Swal.fire({
+              title: "Atenção",
+              text: "Esse e-mail já possui cadastro!",
+              icon: "info"
+            })
+          } else {
+            document.getElementById("tempEmail").value = email
+            $("#formEmail").hide()
+            $("#formSenha").show()
+            $("#formUsername").hide()
+            $("#formTermos").hide()
+          }
+        }).fail(function() {
+          Swal.fire({
+            title: "Erro",
+            text: "Não foi possível concluir o cadastro!",
+            icon: "error"
+          }).then(function() {
+            window.location.reload()
+          })
+        })
+      }
+
+    }
+
+    function validarFormularioSenha(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      var senha = document.getElementById("senha").value
+
+      if (!senha || $('#formSenhaValidacoes input[type="checkbox"]:checked').length != $('#formSenhaValidacoes input[type="checkbox"]').length) {
+        return
+      }
+
+      document.getElementById("tempSenha").value = senha
+
+      $("#formEmail").hide()
+      $("#formSenha").hide()
+      $("#formUsername").show()
+      $("#formTermos").hide()
+    }
+
+    function validarSenha() {
+      var senha = document.getElementById("senha").value
+
+      if (senha == document.getElementById("confirmarSenha").value) {
+        $("#validacao-confirmarSenha").prop("checked", true)
+      } else {
+        $("#validacao-confirmarSenha").prop("checked", false)
+      }
+
+      if (/[a-zA-Z]/.test(senha)) {
+        $("#validacao-letra").prop("checked", true)
+      } else {
+        $("#validacao-letra").prop("checked", false)
+      }
+
+      if (/[0-9@#?!]/.test(senha)) {
+        $("#validacao-numero").prop("checked", true)
+      } else {
+        $("#validacao-numero").prop("checked", false)
+      }
+
+      if (senha.length >= 6) {
+        $("#validacao-tamanho").prop("checked", true)
+      } else {
+        $("#validacao-tamanho").prop("checked", false)
+      }
+    }
+
+    function validarFormularioUsername(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      var username = document.getElementById("username").value
+
+      if (e.target.checkValidity()) {
+        $.get("/usuario/username/" + username, function(resultado) {
+          if (resultado) {
+            Swal.fire({
+              title: "Atenção",
+              text: "Esse nome de usuário já possui cadastro!",
+              icon: "info"
+            })
+          } else {
+            document.getElementById("tempUsername").value = username
+            $("#formEmail").hide()
+            $("#formSenha").hide()
+            $("#formUsername").hide()
+            $("#formTermos").show()
+          }
+        }).fail(function() {
+          Swal.fire({
+            title: "Erro",
+            text: "Não foi possível concluir o cadastro!",
+            icon: "error"
+          }).then(function() {
+            window.location.reload()
+          })
+        })
+      }
+    }
+
+    function cadastrarUsuario(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      $("#tempMarketing").prop("checked", $("#temos-marketing").attr("checked"))
+
+      var form = document.getElementById("tempForm")
+      var formData = new FormData(form)
+
+      if (e.target.checkValidity()) {
+        $.ajax({
+          url: "/auth/register",
+          type: "post",
+          data: JSON.stringify({
+            email: formData.get("email"),
+            senha: formData.get("senha"),
+            username: formData.get("username"),
+            marketing: formData.get("marketing"),
+          }),
+          contentType: "application/json",
+        }).done(function(resultado) {
+          if (resultado) {
+            Swal.fire({
+              title: "Sucesso",
+              text: "Cadastro concluído com sucesso!",
+              icon: "success"
+            }).then(function() {
+              window.location.href = "/auth/login"
+            })
+          } else {
+            Swal.fire({
+              title: "Erro",
+              text: "Não foi possível concluir o cadastro! Entre em contato com o suporte!",
+              icon: "error"
+            }).then(function() {
+              window.location.reload()
+            })
+          }
+        }).fail(function() {
+          Swal.fire({
+            title: "Erro",
+            text: "Não foi possível concluir o cadastro!",
+            icon: "error"
+          }).then(function() {
+            window.location.reload()
+          })
+        })
+      }
+    }
+  </script>
+
+</body>
+
+</html>
