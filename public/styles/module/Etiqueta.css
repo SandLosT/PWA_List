@@ -10,6 +10,14 @@
     width: 100%;
 }
 
+.etiqueta:not(.etiqueta--small):hover .etiqueta__titulo {
+    text-decoration: underline;
+}
+
+.etiqueta:not(.etiqueta--small):hover .etiqueta__icone {
+    opacity: .8;
+}
+
 .etiqueta--small {
     margin: 0;
     padding: 0.25rem 1rem;
@@ -42,18 +50,10 @@
         font-weight: 500 !important;
         opacity: .5;
     }
-    
-    .etiqueta__titulo:hover {
-        text-decoration: underline;
-    }
 
     .etiqueta--small .etiqueta__titulo {
         cursor: default;
         font-weight: 400;
-    }
-    
-    .etiqueta--small .etiqueta__titulo:hover {
-        text-decoration: none;
     }
 
     .etiqueta__descricao {
@@ -63,8 +63,4 @@
     .etiqueta__icone {
         cursor: pointer;
         font-size: 2rem;
-    }
-
-    .etiqueta__icone:hover {
-        opacity: .8;
     }
