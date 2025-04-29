@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Make It List - Login</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/styles/module/Formulario.css">
+  <%- include('../partials/styles') %>
+  <style>
+    .carousel {
+      height: 100%;
+    }
+
+    .carousel-inner,
+    .carousel-item,
+    .carousel-item img {
+      height: 100%;
+    }
+
+    .carousel-item img {
+      filter: brightness(50%);
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media only screen and (max-width: 1200px) {
+      article section:first-child {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <% if (isAuthenticated) { %>
+  <%- include('../partials/header') %>
+  <% } else { %>
+  <%- include('../partials/unauthenticated/header') %>
+  <% } %>
+
+  <main class="overflow-hidden">
+    <article class="d-flex align-items-stretch h-100">
+
+      <section class="overflow-x-hidden overflow-y-auto" style="flex:1">
+        <div id="appCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#appCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#appCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#appCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+              <img src="/images/pages/login/slide1.jpg" class="d-block w-100" alt="...">
+              <%#
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>First slide label</h5>
+                  <p>Some representative placeholder content for the first slide.</p>
+                </div>
+                %>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img src="/images/pages/login/slide2.jpg" class="d-block w-100" alt="...">
+              <%#
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                </div>
+                %>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img src="/images/pages/login/slide3.jpg" class="d-block w-100" alt="...">
+              <%#
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>Some representative placeholder content for the third slide.</p>
+                </div>
+                %>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#appCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#appCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="d-flex align-items-center overflow-x-hidden overflow-y-auto py-4 px-3" style="flex:1">
+        <form class="formulario formulario--login needs-validation" onsubmit="validarFormulario(event)" method="post" action="/auth/login" novalidate>
+          <div class="h3 mb-5 text-center fw-bold">Fazer login</div>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" placeholder="nome@exemplo.com" required />
+            <label for="email">E-mail</label>
+            <div class="invalid-feedback">
+              Preencha com um e-mail válido!
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="senha" placeholder="Digite sua senha..." required />
+            <label for="senha">Senha</label>
+            <div class="invalid-feedback">
+              Campo obrigatório!
+            </div>
+          </div>
+          <a class="d-block text-end mb-4" href="#">Esqueceu sua senha?</a>
+          <button type="submit" class="btn formulario__botao--enviar">Entrar</button>
+
+          <hr class="mt-4 mb-4" />
+
+          <div class="text-center">
+            Ainda não possui conta?
+            <a href="/auth/register">Cadastrar-se</a>
+          </div>
+
+        </form>
+      </section>
+
+    </article>
+  </main>
+
+  <%- include('../partials/scripts') %>
+
+  <script>
+    function validarFormulario(e) {
+      if (!e.target.checkValidity()) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
+      e.target.classList.add("was-validated")
+    }
+  </script>
+
+</body>
+
+</html>

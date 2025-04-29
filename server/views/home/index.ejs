@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Make It List</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+  <link rel="manifest" href="/manifest.json" />
+  <%- include('../partials/styles') %>
+</head>
+
+<body>
+  
+  <%- include('../partials/header') %>
+
+    <main id="main">
+      <article id="article">
+        <!-- Coloque aqui o conteúdo central da página -->
+        <h3 class="mt-3 mb-3">
+          Bem-vindo,
+          <span style="color:#7F07F0">
+            <%= usuario.nome %>
+          </span>
+          !
+        </h3>
+        <hr />
+      </article>
+    </main>
+
+    <%- include('../partials/scripts') %>
+
+</body>
+
+</html>
