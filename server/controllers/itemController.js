@@ -1,4 +1,4 @@
-const itemService = require('../services/ItemService');
+const itemService = require('../services/itemService');
 
 module.exports = {
   listarPorLista: async (req, res) => {
