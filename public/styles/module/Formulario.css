@@ -5,13 +5,16 @@
     width: 100%;
 }
 
-.formulario--login {
+.formulario--pequeno {
     margin: auto;
     max-width: 500px;
+}
+
+.formulario__botao {
+    width: 100% !important;
 }
 
 .formulario__botao--enviar {
     background-color: var(--base-color) !important;
     color: white !important;
-    width: 100% !important;
 }

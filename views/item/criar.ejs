@@ -7,6 +7,7 @@
     <title>Make It List - Criar Item</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Formulario.css" />
     <%- include('../partials/styles') %>
 </head>
 
@@ -14,13 +15,95 @@
 
     <%- include('../partials/header') %>
     
-    <main id="main">
-        <article id="article">
-            <!-- Coloque aqui o conteúdo central da página -->
+    <main>
+        <article class="px-3">
+            <section>
+                <div>
+                    <div class="d-flex align-items-center mt-3 mb-3">
+                        <a class="btn btn-ligth" href="/lista/<%= lista.id %>">
+                            <i class="fa-solid fa-left-long"></i>
+                        </a>
+                        <h3 class="m-0">Criar item</h3>
+                    </div>
+                    <hr />
+                </div>
+                <div class="container p-0" style="max-width: 800px;">
+                    <form class="formulario formulario--pequeno p-0 py-3 needs-validation" onsubmit="criarItem(event)" novalidate>
+                        <input type="hidden" id="listaId" value="<%= lista.id %>" />
+                        <div class="h5 text-center">Criar item para a lista</div>
+                        <div class="h3 mb-5 text-center fw-bold" style="color:#7F07F0"><%= lista.titulo %></div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome" placeholder="Digite o nome do item" required />
+                            <label for="nome">Nome</label>
+                            <div class="invalid-feedback">
+                              Campo obrigatório!
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="quantidade" placeholder="Digite a quantidade do item" required />
+                            <label for="quantidade">Quantidade</label>
+                            <div class="invalid-feedback">
+                              Campo obrigatório!
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="preco" value="0.00" min="0.00" step=".01" placeholder="Digite o preço do item" required />
+                            <label for="preco">Preço (R$)</label>
+                            <div class="invalid-feedback">
+                              Campo obrigatório!
+                            </div>
+                        </div>
+                        <button type="submit" class="btn formulario__botao formulario__botao--enviar">Criar item</button>
+                    </form>
+                </div>
+            </section>
         </article>
     </main>
 
     <%- include('../partials/scripts') %>
+
+    <script>
+        function criarItem(e) {
+            e.preventDefault()
+
+            e.target.classList.add("was-validated")
+
+            var nome = document.getElementById("nome").value
+            var quantidade = document.getElementById("quantidade").value
+            var preco = document.getElementById("preco").value
+            var listaId = document.getElementById("listaId").value
+
+            if (e.target.checkValidity()) {
+                $.ajax({
+                    url: "/item/criar",
+                    type: "post",
+                    data: JSON.stringify({
+                        nome: nome,
+                        quantidade: parseInt(quantidade),
+                        preco: parseFloat(preco),
+                        listaId: listaId
+                    }),
+                    contentType: "application/json"
+                }).done(function () {
+                    Swal.fire({
+                        title: "Sucesso",
+                        text: `O item "${nome}" foi criado com sucesso!`,
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = "/lista/" + listaId
+                    })
+                }).fail(function () {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Ocorreu um erro ao criar o item!",
+                        icon: "error"
+                    }).then(function () {
+                        window.location.reload()
+                    })
+                })
+            }
+        }
+    </script>
 
 </body>
 

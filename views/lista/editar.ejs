@@ -7,6 +7,7 @@
     <title>Make It List - Editar Lista</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Formulario.css" />
     <%- include('../partials/styles') %>
 </head>
 
@@ -14,20 +15,76 @@
     
     <%- include('../partials/header') %>
 
-    <main id="main">
-        <article id="article">
-            <!-- Coloque aqui o conteúdo central da página -->
-            <h3 class="mt-3 mb-3">
-                Editar
-                <span style="color:#69247C">
-                    lista n° 001
-                </span>
-            </h3>
-            <hr />
+    <main>
+        <article class="px-3">
+            <section>
+                <div>
+                    <div class="d-flex align-items-center mt-3 mb-3">
+                        <a class="btn btn-ligth" href="/lista/<%= id %>">
+                            <i class="fa-solid fa-left-long"></i>
+                        </a>
+                        <h3 class="m-0">Editar lista</h3>
+                    </div>
+                    <hr />
+                </div>
+                <div class="container p-0">
+                    <form class="formulario formulario--pequeno p-0 py-3 needs-validation" onsubmit="editarLista(event)" novalidate>
+                        <input type="hidden" id="listaId" value="<%= id %>" />
+                        <div class="h5 text-center">Editar lista <span style="color:#7F07F0"><%= titulo %></span></div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" value="<%= titulo %>" id="titulo" placeholder="Digite um título para a lista" required />
+                            <label for="titulo">Título da lista</label>
+                            <div class="invalid-feedback">
+                              Campo obrigatório!
+                            </div>
+                        </div>
+                        <button type="submit" class="btn formulario__botao formulario__botao--enviar">Salvar</button>
+                    </form>
+                </div>
+            </section>
         </article>
     </main>
 
     <%- include('../partials/scripts') %>
+
+    <script>
+        function editarLista(e) {
+            e.preventDefault()
+
+            e.target.classList.add("was-validated")
+
+            var listaId = document.getElementById("listaId").value
+            var titulo = document.getElementById("titulo").value
+
+            if (e.target.checkValidity()) {
+                $.ajax({
+                    url: "/lista/editar/" + listaId,
+                    type: "put",
+                    data: JSON.stringify({
+                        id: listaId,
+                        titulo: titulo
+                    }),
+                    contentType: "application/json"
+                }).done(function () {
+                    Swal.fire({
+                        title: "Sucesso",
+                        text: `A lista foi editada com sucesso!`,
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = "/lista/" + listaId
+                    })
+                }).fail(function () {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Ocorreu um erro ao editar a lista!",
+                        icon: "error"
+                    }).then(function () {
+                        window.location.href = "/lista/" + listaId
+                    })
+                })
+            }
+        }
+    </script>
 
 </body>
 

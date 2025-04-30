@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles/module/Botao.css" />
+    <link rel="stylesheet" href="/styles/module/Checklist.css" />
     <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
     <%- include('../partials/styles') %>
     <style>
@@ -50,6 +51,11 @@
                                     <i class="fa-solid fa-angle-right"></i>
                                 </div>
                             </a>
+                        <% } %>
+                        <% if (listas.length == 0) { %>
+                            <div class="checklist__item mt-5">
+                                <div class="text-center w-100">Você ainda não criou nenhuma lista!</div>
+                            </div>
                         <% } %>
                     </div>
                 </div>

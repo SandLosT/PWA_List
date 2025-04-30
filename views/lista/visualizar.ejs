@@ -8,11 +8,15 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles/module/Botao.css" />
+    <link rel="stylesheet" href="/styles/module/Checklist.css" />
     <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
     <%- include('../partials/styles') %>
     <style>
         a {
             color: unset;
+        }
+        .swal2-cancel {
+            color: black;
         }
     </style>
 </head>
@@ -35,22 +39,28 @@
                 </div>
                 <div class="container p-0" style="max-width: 800px;">
                     <div class="d-flex align-items-center mb-3">
-                        <div class="etiqueta etiqueta--lista etiqueta--small">
+                        <div class="etiqueta etiqueta--lista etiqueta--pequeno">
                             <div class="etiqueta__titulo">
                                 <%= titulo %>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-lg" onclick="excluirLista(<%= id %>)">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <div class="dropdown ms-2">
+                            <button type="button" class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/lista/editar/<%= id %>">Editar</a></li>
+                                <li><a class="dropdown-item" role="button" href="#" onclick="excluirLista(<%= id %>)">Excluir</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="">
-                        <a class="botao botao--link mb-4" href="/item/criar/<%= id %>">
+                        <a class="botao botao--link mb-4" href="/item/criar?listaId=<%= id %>">
                             <i class="fa-solid fa-plus"></i>
                             Adicionar item
                         </a>
                         <% for (var item of itens) { %>
-                            <div class="etiqueta etiqueta--item etiqueta--small etiqueta--dark mb-2">
+                            <div class="etiqueta etiqueta--item etiqueta--pequeno etiqueta--dark mb-2">
                                 <div class="etiqueta__conteudo">
                                     <div class="etiqueta__titulo">
                                         <%= item.nome %>
@@ -61,11 +71,11 @@
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex align-items-center" style="gap:5px">
-                                        <button type="button" class="btn btn-sm btn-danger" style="border-radius:100%" onclick="excluirItem(<%= item.id %>)">
+                                        <button type="button" class="btn btn-sm btn-danger" style="border-radius:100%" onclick="diminuirItem(<%= item.id %>)">
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
-                                        <input type="number" class="form-control" style="width: 50px;padding: .375rem .25rem;font-size: .75rem;" value="<%= item.quantidade %>" readonly />
-                                        <button type="button" class="btn btn-sm btn-success" style="border-radius:100%" onclick="excluirItem(<%= item.id %>)">
+                                        <input type="number" class="form-control" style="width: 50px;padding: .375rem .25rem;font-size: .75rem;" id="item<%= item.id %>" value="<%= item.quantidade %>" readonly />
+                                        <button type="button" class="btn btn-sm btn-success" style="border-radius:100%" onclick="aumentarItem(<%= item.id %>)">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
                                     </div>
@@ -75,10 +85,15 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="/item/editar/<%= item.id %>">Editar</a></li>
-                                            <li><a class="dropdown-item" href="/item/excluir/<%= item.id %>">Excluir</a></li>
+                                            <li><a class="dropdown-item" role="button" href="#" onclick="excluirItem(<%= item.id %>)">Excluir</a></li>
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                        <% } %>
+                        <% if (itens.length == 0) { %>
+                            <div class="checklist__item mt-5">
+                                <div class="text-center w-100">Lista vazia!</div>
                             </div>
                         <% } %>
                     </div>
@@ -91,11 +106,85 @@
 
     <script>
         function excluirLista(id) {
-
+            Swal.fire({
+                title: "Tem certeza que deseja excluir a lista?",
+                text: "Não será possível desfazer esta ação!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#f8f9fa",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/lista/excluir/" + id,
+                        type: "delete"
+                    }).done(function () {
+                        Swal.fire({
+                            title: "Sucesso!",
+                            text: "A lista foi excluída com sucesso!",
+                            icon: "success"
+                        }).then(function () {
+                            window.location.href = "/lista"
+                        })
+                    }).fail(function () {
+                        Swal.fire({
+                            title: "Erro!",
+                            text: "Não foi possível excluir a lista!",
+                            icon: "error"
+                        }).then(function () {
+                            window.location.reload()
+                        })
+                    })
+                }
+            });
         }
 
         function excluirItem(id) {
-            
+            $.ajax({
+                url: "/item/excluir/" + id,
+                type: "delete"
+            }).done(function () {
+                Swal.fire({
+                    title: "Sucesso",
+                    text: "O item foi excluído com sucesso!",
+                    icon: "success"
+                }).then(function () {
+                    window.location.reload()
+                })
+            }).fail(function () {
+                Swal.fire({
+                    title: "Erro",
+                    text: "Ocorreu um erro ao excluir o item!",
+                    icon: "error"
+                }).then(function () {
+                    window.location.reload()
+                })
+            })
+        }
+
+        function diminuirItem(id) {
+            $.ajax({
+                url: "/item/diminuir/" + id,
+                type: "post"
+            }).done(function (resultado) {
+                $(`#item${id}`).val(resultado.quantidade)
+            }).fail(function () {
+                window.location.reload()
+            })
+        }
+
+        function aumentarItem(id) {
+            $.ajax({
+                url: "/item/aumentar/" + id,
+                type: "post"
+            }).done(function (resultado) {
+                $(`#item${id}`).val(resultado.quantidade)
+            }).fail(function () {
+                window.location.reload()
+            })
         }
     </script>
 
