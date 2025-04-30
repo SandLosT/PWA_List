@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const itemController = require('../../services/ItemService');
-
+const itemController = require('../../controllers/itemController');
+const autenticarJWT = require('../../middlewares/authMiddleware');
 // Rota padrão: /api/itens
 router.get('/lista/:listaId', itemController.listarPorLista);
 router.post('/lista/:listaId', itemController.adicionar);

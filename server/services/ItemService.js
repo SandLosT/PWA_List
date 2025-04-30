@@ -1,23 +1,23 @@
-const { db } = require('../firebase');
+const itemRepository = require('../repositories/itemRepository');
 
 module.exports = {
   listarPorLista: async (listaId) => {
-    const snapshot = await db.collection('listas').doc(listaId).collection('itens').get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (!listaId) throw new Error('Lista ID é obrigatório');
+    return await itemRepository.listarPorLista(listaId);
   },
 
   adicionar: async (listaId, novoItem) => {
-    const docRef = await db.collection('listas').doc(listaId).collection('itens').add(novoItem);
-    return docRef.id;
+    if (!listaId || !novoItem?.descricao) throw new Error('Dados inválidos');
+    return await itemRepository.adicionar(listaId, novoItem);
   },
 
-  atualizar: async (id, listaId, dados) => {
-    const itemRef = db.collection('listas').doc(listaId).collection('itens').doc(id);
-    await itemRef.update(dados);
+  atualizar: async (listaId, itemId, dados) => {
+    if (!listaId || !itemId || !dados) throw new Error('Parâmetros inválidos');
+    await itemRepository.atualizar(listaId, itemId, dados);
   },
 
-  excluir: async (id, listaId) => {
-    const itemRef = db.collection('listas').doc(listaId).collection('itens').doc(id);
-    await itemRef.delete();
+  excluir: async (listaId, itemId) => {
+    if (!listaId || !itemId) throw new Error('Parâmetros obrigatórios');
+    await itemRepository.excluir(listaId, itemId);
   }
 };

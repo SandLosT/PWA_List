@@ -2,11 +2,10 @@
 
 const express = require('express');
 const router = express.Router();
-const AuthController = require('../../controllers/AuthController');
+const AuthController = require('../../controllers/authController');
 
 // GET - renderiza views
-router.get('/login', AuthController.showLogin);     // Retorna página
-router.get('/register', AuthController.showRegister); // Retorna página
-router.get('/logout', AuthController.logout);      // Pode retornar JSON
+router.get('/login', AuthController.showLogin);
+router.get('/register', AuthController.showRegister);
 
 module.exports = router;

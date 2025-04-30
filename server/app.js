@@ -29,10 +29,11 @@ app.use('/api/auth', authRoutes);
 const listaViewRoutes = require('./routes/viewsRoutes/listaViewRoutes');
 const usuarioViewRoutes = require('./routes/viewsRoutes/usuarioViewRoutes');
 const authViewRoutes = require('./routes/viewsRoutes/authViewRoutes');
-
+const homeViewRoutes = require('./routes/viewsRoutes/homeViewRoutes');
 app.use('/lista', listaViewRoutes);
 app.use('/usuario', usuarioViewRoutes);
 app.use('/auth', authViewRoutes);
+app.use('/', homeViewRoutes);
 
 // Exporta o app para ser usado no server.js
 module.exports = app;

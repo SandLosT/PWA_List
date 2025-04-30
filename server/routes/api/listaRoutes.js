@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const listaController = require('../../services/listaService');
+const listaController = require('../../controllers/listaController');
 
 // Rota padrão: /api/listas
 router.get('/', listaController.listar);
