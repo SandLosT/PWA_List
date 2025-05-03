@@ -16,6 +16,7 @@ module.exports = {
   },
 
   excluir: async (listaId, itemId) => {
+    console.log('o que esta chegando:', itemId, listaId);
     await db.collection('listas').doc(listaId).collection('itens').doc(itemId).delete();
   }
 };
