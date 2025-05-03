@@ -1,26 +1,27 @@
-const { db } = require('../firebase');
+const listaRepository = require('../repositories/listaRepository');
 
 module.exports = {
   listar: async () => {
-    const snapshot = await db.collection('listas').get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return await listaRepository.listar();
   },
 
   visualizar: async (id) => {
-    const doc = await db.collection('listas').doc(id).get();
-    return doc.exists ? { id: doc.id, ...doc.data() } : null;
+    if (!id) throw new Error('ID é obrigatório');
+    return await listaRepository.visualizar(id);
   },
 
   criar: async (novaLista) => {
-    const docRef = await db.collection('listas').add(novaLista);
-    return docRef.id;
+    if (!novaLista?.nome) throw new Error('Nome da lista é obrigatório');
+    return await listaRepository.criar(novaLista);
   },
 
   atualizar: async (id, dados) => {
-    await db.collection('listas').doc(id).update(dados);
+    if (!id || !dados) throw new Error('Parâmetros inválidos');
+    await listaRepository.atualizar(id, dados);
   },
 
   excluir: async (id) => {
-    await db.collection('listas').doc(id).delete();
+    if (!id) throw new Error('ID é obrigatório');
+    await listaRepository.excluir(id);
   }
 };
