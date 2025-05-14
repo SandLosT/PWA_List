@@ -1,0 +1,25 @@
+<div class="modal fade" id="modalCriarLista" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalCriarListaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered align-items-end">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalCriarListaLabel">Criar lista</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formCriarLista" class="formulario formulario--pequeno p-0 needs-validation" onsubmit="criarLista(event)" novalidate>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="titulo" id="formCriarListaTitulo" placeholder="Digite um título para a lista" required />
+            <label for="formCriarListaTitulo">Digite um título para a lista</label>
+            <div class="invalid-feedback">
+              Campo obrigatório!
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn botao" onclick="submitForm('formCriarLista')">Criar</button>
+      </div>
+    </div>
+  </div>
+</div>

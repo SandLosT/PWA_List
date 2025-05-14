@@ -10,14 +10,6 @@
     width: 100%;
 }
 
-.etiqueta:not(.etiqueta--pequeno):hover .etiqueta__titulo {
-    text-decoration: underline;
-}
-
-.etiqueta:not(.etiqueta--pequeno):hover .etiqueta__icone {
-    opacity: .8;
-}
-
 .etiqueta--pequeno {
     margin: 0;
     padding: 0.25rem 1rem;
@@ -39,6 +31,10 @@
 
     .etiqueta__conteudo {
         flex: 1;
+    }
+
+    .etiqueta:not(.etiqueta--pequeno) .etiqueta__conteudo:hover .etiqueta__titulo {
+        text-decoration: underline;
     }
 
     .etiqueta__titulo {
@@ -70,5 +66,5 @@
 
     .etiqueta__icone {
         cursor: pointer;
-        font-size: 2rem;
+        font-size: 1rem;
     }

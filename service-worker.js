@@ -1,6 +1,5 @@
 const CACHE_NAME = 'make-it-list-cache-v1';
 const urlsToCache = [
-  '/',
   '/images/favicon/android-chrome-192x192.png',
   '/images/favicon/android-chrome-512x512.png',
   '/images/favicon/apple-touch-icon.png',

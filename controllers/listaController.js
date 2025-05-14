@@ -2,23 +2,9 @@ var express = require('express')
 var router = express.Router()
 var db = require('../test/inMemoryDb')
 
-var ID_SEQUENCIAL = 3
+var ID_SEQUENCIAL = 0
 
-router.get('/criar', (req, res) => {
-    res.render('lista/criar')
-})
-
-router.get('/editar/:id', (req, res) => {
-    var lista = db.listas.find(lista => lista.id == req.params.id)
-
-    if (lista == null || lista == undefined) {
-        res.redirect("/lista")
-        return
-    }
-
-    res.render('lista/editar', lista)
-})
-
+// pagina: Visualizar Lista
 router.get('/:id', (req, res) => {
     var lista = db.listas.find(lista => lista.id == req.params.id)
 
@@ -30,7 +16,14 @@ router.get('/:id', (req, res) => {
     res.render('lista/visualizar', lista)
 })
 
+router.get('/pesquisarPorId/:id', (req, res) => {
+    var lista = db.listas.find(lista => lista.id == req.params.id)
+    res.json(lista)
+})
+
+// pagina: Minhas Listas
 router.get('/', (req, res) => {
+    console.log(db.listas)
     res.render('lista/index', {
         listas: db.listas
     })
@@ -44,6 +37,8 @@ router.post('/criar', (req, res) => {
         titulo: body.titulo,
         itens: []
     })
+
+    console.log(db.listas)
 
     res.status(201).send()
 })

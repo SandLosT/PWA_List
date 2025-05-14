@@ -2,68 +2,221 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Make It List - Minhas Listas</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles/module/Botao.css" />
-    <link rel="stylesheet" href="/styles/module/Checklist.css" />
-    <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
-    <%- include('../partials/styles') %>
-    <style>
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,interactive-widget=resizes-content" />
+  <title>Make It List - Minhas Listas</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/styles/module/Botao.css" />
+  <link rel="stylesheet" href="/styles/module/Checklist.css" />
+  <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
+  <%- include('../partials/styles') %>
+  <style>
+    .swal2-cancel {
+      color: black;
+    }
+  </style>
 </head>
 
 <body>
-    
-    <%- include('../partials/header') %>
 
-    <main>
-        <article class="px-3">
-            <section>
-                <div>
-                    <div class="d-flex align-items-center mt-3 mb-3">
-                        <a class="btn btn-ligth" href="/">
-                            <i class="fa-solid fa-left-long"></i>
-                        </a>
-                        <h3 class="m-0">Minhas listas</h3>
-                    </div>
-                    <hr />
-                </div>
-                <div class="container p-0" style="max-width: 800px;">
-                    <a class="botao botao--link mb-4" href="/lista/criar">
-                        <i class="fa-solid fa-plus"></i>
-                        Criar lista
-                    </a>
-                    <div>
-                        <% for(var lista of listas) { %>
-                            <a class="etiqueta etiqueta--lista" href="/lista/<%= lista.id %>">
-                                <div class="etiqueta__conteudo">
-                                    <div class="etiqueta__titulo">
-                                        <%= lista.titulo %>
-                                    </div>
-                                    <div class="etiqueta__descricao">
-                                        <%= lista.itens.length %>/99
-                                    </div>
-                                </div>
-                                <div class="etiqueta__icone">
-                                    <i class="fa-solid fa-angle-right"></i>
-                                </div>
-                            </a>
-                        <% } %>
-                        <% if (listas.length == 0) { %>
-                            <div class="checklist__item mt-5">
-                                <div class="text-center w-100">Você ainda não criou nenhuma lista!</div>
-                            </div>
-                        <% } %>
-                    </div>
-                </div>
-            </section>
-        </article>
-    </main>
+  <%- include('../partials/header') %>
 
-    <%- include('../partials/scripts') %>
+  <main class="position-relative">
+    <article class="d-flex flex-column px-3">
+      <section class="d-flex flex-column flex-fill">
+        <div>
+          <div class="d-flex align-items-center mt-3 mb-3">
+            <h3 class="m-0">Minhas listas</h3>
+          </div>
+          <hr />
+        </div>
+        <div class="flex-fill">
+
+          <%# listas %>
+          <div class="container p-0" style="max-width: 500px;">
+            <% for(var lista of listas) { %>
+            <div class="etiqueta etiqueta--lista">
+              <a class="etiqueta__conteudo d-flex justify-content-between" style="color:white !important" href="/lista/<%= lista.id %>">
+                <div class="etiqueta__titulo">
+                  <%= lista.titulo %>
+                </div>
+                <div class="etiqueta__descricao">
+                  <%= lista.itens.length %>/99 itens
+                </div>
+              </a>
+              <div class="dropdown ms-2">
+                <button type="button" class="btn ms-3" style="border:none;color:white" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><button type="button" class="btn dropdown-item" onclick="abrirModalRenomearLista(<%= lista.id %>)">Renomear</button></li>
+                  <li><button type="button" class="btn dropdown-item" onclick="excluirLista(<%= lista.id %>)">Excluir</button></li>
+                </ul>
+              </div>
+            </div>
+            <% } %>
+          </div>
+
+          <% if (listas.length == 0) { %>
+          <div class="h-100 d-flex flex-column align-items-center justify-content-center">
+            <img class="mb-3" style="width:100px" src="/images/favicon/android-chrome-512x512.png" alt="Ícone de lista" />
+            <p class="text-center fw-bold mb-0">Você ainda não criou nenhuma lista!</p>
+            <p class="text-center">Clique no botão <span style="color:#7F07F0">Adicionar</span> para criar uma nova lista!</p>
+          </div>
+          <% } %>
+        </div>
+      </section>
+    </article>
+    <button id="botaoAdicionar" type="button" class="btn btn-primary botao--absoluto-inferior" style="border-radius:100%;" data-bs-toggle="modal" data-bs-target="#modalCriarLista">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </main>
+
+  <%- include('./_modalCriarLista.ejs') %>
+  <%- include('./_modalRenomearLista.ejs') %>
+
+  <%- include('../partials/scripts') %>
+
+  <script src="/plugins/jquery-ui-1.14.1/jquery-ui.min.css"></script>
+
+  <script>
+    $(function () {
+        //$('#botaoAdicionar').draggable()
+    })
+
+    function submitForm(formId) {
+      $(`#${formId}`).trigger('submit');
+    }
+
+    function criarLista(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      var form = document.getElementById("formCriarLista")
+      var formData = new FormData(form)
+
+      if (e.target.checkValidity()) {
+        $.ajax({
+          url: "/lista/criar/",
+          type: "post",
+          data: JSON.stringify({
+            titulo: formData.get("titulo")
+          }),
+          contentType: "application/json"
+        }).done(function() {
+          Swal.fire({
+            title: "Sucesso",
+            text: `A lista "${formData.get("titulo")}" foi criada com sucesso!`,
+            icon: "success"
+          }).then(function() {
+            window.location.reload()
+          })
+        }).fail(function() {
+          Swal.fire({
+            title: "Erro",
+            text: "Ocorreu um erro ao criar a lista!",
+            icon: "error"
+          }).then(function() {
+            window.location.reload()
+          })
+        })
+      }
+    }
+
+    function abrirModalRenomearLista(id) {
+      $.get("/lista/pesquisarPorId/" + id, function(lista) {
+        if (lista != null) {
+          $('#formRenomearLista').find('input[name="id"]').val(lista.id)
+          $('#formRenomearLista').find('input[name="titulo"]').val(lista.titulo)
+          $('#modalRenomearLista').modal('show')
+        } else {
+          Swal.fire({
+            title: "Erro!",
+            text: "Não foi possível carregar os dados da lista!",
+            icon: "error"
+          }).then(function() {
+            window.location.reload()
+          })
+        }
+      })
+    }
+
+    function excluirLista(id) {
+      Swal.fire({
+        title: "Tem certeza que deseja excluir a lista?",
+        text: "Não será possível desfazer esta ação!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#f8f9fa",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "/lista/excluir/" + id,
+            type: "delete"
+          }).done(function() {
+            Swal.fire({
+              title: "Sucesso!",
+              text: "A lista foi excluída com sucesso!",
+              icon: "success"
+            }).then(function() {
+              window.location.reload()
+            })
+          }).fail(function() {
+            Swal.fire({
+              title: "Erro!",
+              text: "Não foi possível excluir a lista!",
+              icon: "error"
+            }).then(function() {
+              window.location.reload()
+            })
+          })
+        }
+      });
+    }
+
+    function editarLista(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      var form = document.getElementById("formRenomearLista")
+      var formData = new FormData(form)
+
+      if (e.target.checkValidity()) {
+        $.ajax({
+          url: "/lista/editar/" + formData.get("id"),
+          type: "put",
+          data: JSON.stringify({
+            id: formData.get("id"),
+            titulo: formData.get("titulo")
+          }),
+          contentType: "application/json"
+        }).done(function() {
+          Swal.fire({
+            title: "Sucesso",
+            text: `A lista foi renomeada com sucesso!`,
+            icon: "success"
+          }).then(function() {
+            window.location.reload()
+          })
+        }).fail(function() {
+          Swal.fire({
+            title: "Erro",
+            text: "Ocorreu um erro ao renomear a lista!",
+            icon: "error"
+          }).then(function() {
+            window.location.reload()
+          })
+        })
+      }
+    }
+  </script>
 
 </body>
 

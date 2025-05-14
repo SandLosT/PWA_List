@@ -1,16 +1,32 @@
 @import '../base/variables.css';
 
 .botao {
-    background-color: var(--base-color);
-    color: white;
+    background-color: var(--base-color) !important;
+    color: white !important;
 }
 
 .botao--link {
-    background-color: unset;
-    color: var(--base-color);
+    background-color: unset !important;
+    color: var(--base-color) !important;
     display: block;
     font-size: 1rem;
     margin: auto;
     text-decoration:underline;
     width: max-content;
+}
+
+.botao--absoluto-inferior {
+    bottom: 2rem;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    font-size: 1.2rem !important;
+    position: absolute;
+    right: 2rem;
+    transition: .3s ease-in !important;
+    z-index: 100;
+}
+
+
+.botao--absoluto-inferior:hover {
+    opacity: .95;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.4);
 }
