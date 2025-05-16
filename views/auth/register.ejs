@@ -3,21 +3,21 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,interactive-widget=resizes-content" />
   <title>Make It List - Cadastro</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
   <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="/styles/module/Checklist.css">
   <link rel="stylesheet" href="/styles/module/Formulario.css">
-  <%- include('../partials/styles') %>
+  <%- include('../partials/_styles') %>
 </head>
 
 <body>
 
   <% if (isAuthenticated) { %>
-  <%- include('../partials/header') %>
+  <%- include('../partials/_header') %>
   <% } else { %>
-  <%- include('../partials/unauthenticated/header') %>
+  <%- include('../partials/unauthenticated/_header') %>
   <% } %>
 
   <main>
@@ -147,7 +147,7 @@
     <input type="checkbox" value="true" checked="false" name="marketing" id="tempMarketing" />
   </form>
 
-  <%- include('../partials/scripts') %>
+  <%- include('../partials/_scripts') %>
 
   <script>
     function validarFormularioEmail(e) {

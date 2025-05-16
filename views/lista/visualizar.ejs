@@ -3,110 +3,81 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,interactive-widget=resizes-content" />
     <title>Make It List - Visualizar Lista</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles/module/Botao.css" />
     <link rel="stylesheet" href="/styles/module/Checklist.css" />
     <link rel="stylesheet" href="/styles/module/Etiqueta.css" />
-    <%- include('../partials/styles') %>
-    <style>
-        a {
-            color: unset;
-        }
-        .swal2-cancel {
-            color: black;
-        }
-    </style>
+    <%- include('../partials/_styles') %>
+        <style>
+            a {
+                color: unset;
+            }
+
+            .swal2-cancel {
+                color: black;
+            }
+        </style>
 </head>
 
 <body>
-    
-    <%- include('../partials/header') %>
 
-    <input id="listaId" type="hidden" value="<%= id %>" />
+    <%- include('../partials/_header') %>
 
-    <main class="position-relative">
-        <article class="d-flex flex-column px-3">
-             <section class="d-flex flex-column flex-fill">
-                <div>
-                    <div class="d-flex align-items-center justify-content-between mt-3 mb-3">
-                        <div class="d-flex align-items-center">
-                            <a class="btn btn-ligth" href="/lista">
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </a>
-                            <h3 class="m-0">Visualizar Lista</h3>
+        <input id="listaId" type="hidden" value="<%= id %>" />
+
+        <main class="position-relative">
+            <article class="d-flex flex-column px-3">
+                <section class="d-flex flex-column flex-fill">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mt-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <a class="btn btn-ligth" href="/lista">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </a>
+                                <h3 class="m-0">
+                                    <%= titulo %>
+                                </h3>
+                            </div>
+                            <%- include('./_contextMenuLista', { id }) %>
                         </div>
-                        <div class="dropdown ms-2">
-                            <button type="button" class="btn btn-sm" style="border:none" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <button type="button" class="btn dropdown-item">
-                                        <i class="fa-solid fa-share-nodes me-2"></i>
-                                        Compartilhar
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn dropdown-item" onclick="abrirModalRenomearLista(<%= id %>)">
-                                        <i class="fa-solid fa-pen me-2"></i>
-                                        Renomear
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn dropdown-item" onclick="excluirLista(<%= id %>)">
-                                        <i class="fa-solid fa-trash me-2"></i>
-                                        Excluir
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                        <hr />
                     </div>
-                    <hr />
-                </div>
-                <div class="flex-fill">
-                    <%# listas %>
-                    <div class="container p-0" style="max-width: 500px;">
-                        <% for (var item of itens) { %>
-                            <div class="etiqueta etiqueta--item etiqueta--pequeno etiqueta--dark mb-2">
-                                <div class="etiqueta__conteudo">
-                                    <div class="etiqueta__titulo">
-                                        <%= item.nome %>
+                    <div class="flex-fill">
+                        <% if (itens.length> 0) { %>
+                        <div class="container p-0" style="max-width: 500px;padding-bottom:80px !important;">
+                            <% for (var item of itens) { %>
+                            <div class="etiqueta etiqueta--item etiqueta--pequeno etiqueta--dark mb-2" style="gap:.25rem">
+                                <div class="etiqueta__conteudo d-flex flex-wrap justify-content-between" style="gap:.5rem">
+                                    <div class="flex-fill">
+                                        <div class="etiqueta__titulo">
+                                            <%= item.nome %>
+                                        </div>
+                                        <div class="etiqueta__descricao">
+                                            R$ <%= item.preco %>
+                                        </div>
                                     </div>
-                                    <div class="etiqueta__descricao">
-                                        R$ <%= item.preco %>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
                                     <div class="d-flex align-items-center" style="gap:5px">
-                                        <button type="button" class="btn btn-sm btn-danger" style="border-radius:100%" onclick="diminuirItem(<%= item.id %>)">
+                                        <button type="button" class="btn btn-sm btn-danger" style="border-radius:100%" onclick="diminuirItem('<%= item.id %>')">
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
                                         <input type="number" class="form-control" style="width: 50px;padding: .375rem .25rem;font-size: .75rem;" id="item<%= item.id %>" value="<%= item.quantidade %>" readonly />
-                                        <button type="button" class="btn btn-sm btn-success" style="border-radius:100%" onclick="aumentarItem(<%= item.id %>)">
+                                        <button type="button" class="btn btn-sm btn-success" style="border-radius:100%" onclick="aumentarItem('<%= item.id %>')">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
                                     </div>
-                                    <div class="dropdown ms-2">
-                                        <button type="button" class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="/item/editar/<%= item.id %>">Editar</a></li>
-                                            <li><a class="dropdown-item" role="button" href="#" onclick="excluirItem(<%= item.id %>)">Excluir</a></li>
-                                        </ul>
-                                    </div>
                                 </div>
+                                <%- include('./_contextMenuItem', { id: item.id }) %>
                             </div>
-                        <% } %>
-                    </div>
-                    <% if (itens.length == 0) { %>
+                            <% } %>
+                        </div>
+                    <% } else { %>
                         <div class="h-100 d-flex flex-column align-items-center justify-content-center">
                             <img class="mb-3" style="width:100px" src="/images/icons/blank-512x512.png" alt="Ícone de lixeira" />
                             <p class="text-center fw-bold mb-0">Lista vazia!</p>
-                            <p class="text-center">Clique no botão <span style="color:#7F07F0">Adicionar</span> para adicionar um item!</p>
+                            <p class="text-center">Clique no botão <span style="color:#7F07F0">Adicionar</span> no canto inferior direito para adicionar um item!</p>
                         </div>
                     <% } %>
                 </div>
@@ -117,136 +88,68 @@
         </button>
     </main>
 
-    <%- include('./_modalCriarItem.ejs') %>
-    <%- include('./_modalRenomearLista.ejs') %>
+    <%- include('./_modalCriarItem') %>
+    <%- include('./_modalEditarItem') %>
+    <%- include('./_modalRenomearLista') %>
 
-    <%- include('../partials/scripts') %>
+    <%- include('../partials/_scripts') %>
+
+    <script src="/scripts/CRUD/itemCRUD.js"></script>
+    <script src="/scripts/CRUD/listaCRUD.js"></script>
 
     <script>
-        function submitForm(formId) {
-          $(`#${formId}`).trigger('submit');
-        }
-
-        function excluirLista(id) {
-            Swal.fire({
-                title: "Tem certeza que deseja excluir a lista?",
-                text: "Não será possível desfazer esta ação!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#f8f9fa",
-                confirmButtonText: "Confirmar",
-                cancelButtonText: "Cancelar",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/lista/excluir/" + id,
-                        type: "delete"
-                    }).done(function () {
-                        Swal.fire({
-                            title: "Sucesso!",
-                            text: "A lista foi excluída com sucesso!",
-                            icon: "success"
-                        }).then(function () {
-                            window.location.href = "/lista"
-                        })
-                    }).fail(function () {
-                        Swal.fire({
-                            title: "Erro!",
-                            text: "Não foi possível excluir a lista!",
-                            icon: "error"
-                        }).then(function () {
-                            window.location.reload()
-                        })
-                    })
-                }
-            });
-        }
-
-        function excluirItem(id) {
-            $.ajax({
-                url: "/item/excluir/" + id,
-                type: "delete"
-            }).done(function () {
-                Swal.fire({
-                    title: "Sucesso",
-                    text: "O item foi excluído com sucesso!",
-                    icon: "success"
-                }).then(function () {
-                    window.location.reload()
-                })
-            }).fail(function () {
-                Swal.fire({
-                    title: "Erro",
-                    text: "Ocorreu um erro ao excluir o item!",
-                    icon: "error"
-                }).then(function () {
-                    window.location.reload()
-                })
-            })
-        }
-
-        function criarItem(e) {
-            e.preventDefault()
-
-            e.target.classList.add("was-validated")
-
-            var listaId = document.getElementById("listaId").value
-            var form = document.getElementById("formCriarItem")
-            var formData = new FormData(form)
-
-            if (e.target.checkValidity()) {
-                $.ajax({
-                    url: "/item/criar",
-                    type: "post",
-                    data: JSON.stringify({
-                        nome: formData.get("nome"),
-                        quantidade: parseInt(formData.get("quantidade")),
-                        preco: parseFloat(formData.get("preco")),
-                        listaId: listaId
-                    }),
-                    contentType: "application/json"
-                }).done(function () {
+        function abrirModalRenomearLista(id) {
+            $.get("/lista/pesquisarPorId/" + id, function (lista) {
+                if (lista != null) {
+                    $('#formRenomearLista').find('input[name="id"]').val(lista.id)
+                    $('#formRenomearLista').find('input[name="titulo"]').val(lista.titulo)
+                    $('#modalRenomearLista').modal('show')
+                } else {
                     Swal.fire({
-                        title: "Sucesso",
-                        text: `O item "${formData.get("nome")}" foi criado com sucesso!`,
-                        icon: "success"
-                    }).then(function () {
-                        window.location.reload()
-                    })
-                }).fail(function () {
-                    Swal.fire({
-                        title: "Erro",
-                        text: "Ocorreu um erro ao criar o item!",
+                        title: "Erro!",
+                        text: "Não foi possível carregar os dados da lista!",
                         icon: "error"
                     }).then(function () {
                         window.location.reload()
                     })
-                })
+                }
+            })
+        }
+
+        function abrirModalEditarItem(id) {
+            $.get("/item/pesquisarPorId/" + id, function (item) {
+                if (item != null) {
+                    $('#formEditarItem').find('input[name="id"]').val(item.id)
+                    $('#formEditarItem').find('input[name="listaId"]').val(item.listaId)
+                    $('#formEditarItem').find('input[name="nome"]').val(item.nome)
+                    $('#formEditarItem').find('input[name="quantidade"]').val(parseInt(item.quantidade))
+                    $('#formEditarItem').find('input[name="preco"]').val(parseFloat(item.preco))
+                    $('#modalEditarItem').modal('show')
+                } else {
+                    Swal.fire({
+                        title: "Erro!",
+                        text: "Não foi possível carregar os dados do item!",
+                        icon: "error"
+                    }).then(function () {
+                        window.location.reload()
+                    })
+                }
+            })
+        }
+
+        function aumentarInput(id) {
+            var input = document.getElementById(id)
+            input.value = parseInt(input.value) + 1
+        }
+
+        function diminuirInput(id) {
+            var input = document.getElementById(id)
+
+            if ((input.value - 1) < 0) {
+                input.value = 0
+            } else {
+                input.value = parseInt(input.value) - 1
             }
-        }
-
-        function diminuirItem(id) {
-            $.ajax({
-                url: "/item/diminuir/" + id,
-                type: "post"
-            }).done(function (resultado) {
-                $(`#item${id}`).val(resultado.quantidade)
-            }).fail(function () {
-                window.location.reload()
-            })
-        }
-
-        function aumentarItem(id) {
-            $.ajax({
-                url: "/item/aumentar/" + id,
-                type: "post"
-            }).done(function (resultado) {
-                $(`#item${id}`).val(resultado.quantidade)
-            }).fail(function () {
-                window.location.reload()
-            })
         }
     </script>
 

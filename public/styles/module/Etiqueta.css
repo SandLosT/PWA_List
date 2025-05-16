@@ -11,8 +11,9 @@
 }
 
 .etiqueta--pequeno {
+    border-radius: 5px;
     margin: 0;
-    padding: 0.25rem 1rem;
+    padding: 0.85rem 1rem;
     text-overflow: ellipsis;
     text-wrap: nowrap;
 }
@@ -40,8 +41,9 @@
     .etiqueta__titulo {
         cursor: pointer;
         font-weight: bold;
-        text-overflow: ellipsis;
+        min-width: 70%;
         overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
     }
     
@@ -52,6 +54,7 @@
     .etiqueta--pequeno .etiqueta__titulo {
         cursor: default;
         font-weight: 400;
+        margin-bottom: 3px;
     }
 
     .etiqueta__descricao {
