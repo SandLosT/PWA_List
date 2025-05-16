@@ -25,40 +25,50 @@
     
     <%- include('../partials/header') %>
 
-    <main>
-        <article class="px-3">
-             <section>
+    <input id="listaId" type="hidden" value="<%= id %>" />
+
+    <main class="position-relative">
+        <article class="d-flex flex-column px-3">
+             <section class="d-flex flex-column flex-fill">
                 <div>
-                    <div class="d-flex align-items-center mt-3 mb-3">
-                        <a class="btn btn-ligth" href="/lista">
-                            <i class="fa-solid fa-left-long"></i>
-                        </a>
-                        <h3 class="m-0">Visualizar Lista</h3>
-                    </div>
-                    <hr />
-                </div>
-                <div class="container p-0" style="max-width: 800px;">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="etiqueta etiqueta--lista etiqueta--pequeno">
-                            <div class="etiqueta__titulo">
-                                <%= titulo %>
-                            </div>
+                    <div class="d-flex align-items-center justify-content-between mt-3 mb-3">
+                        <div class="d-flex align-items-center">
+                            <a class="btn btn-ligth" href="/lista">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </a>
+                            <h3 class="m-0">Visualizar Lista</h3>
                         </div>
                         <div class="dropdown ms-2">
-                            <button type="button" class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-sm" style="border:none" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/lista/editar/<%= id %>">Editar</a></li>
-                                <li><a class="dropdown-item" role="button" href="#" onclick="excluirLista(<%= id %>)">Excluir</a></li>
+                                <li>
+                                    <button type="button" class="btn dropdown-item">
+                                        <i class="fa-solid fa-share-nodes me-2"></i>
+                                        Compartilhar
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn dropdown-item" onclick="abrirModalRenomearLista(<%= id %>)">
+                                        <i class="fa-solid fa-pen me-2"></i>
+                                        Renomear
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn dropdown-item" onclick="excluirLista(<%= id %>)">
+                                        <i class="fa-solid fa-trash me-2"></i>
+                                        Excluir
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="">
-                        <a class="botao botao--link mb-4" href="/item/criar?listaId=<%= id %>">
-                            <i class="fa-solid fa-plus"></i>
-                            Adicionar item
-                        </a>
+                    <hr />
+                </div>
+                <div class="flex-fill">
+                    <%# listas %>
+                    <div class="container p-0" style="max-width: 500px;">
                         <% for (var item of itens) { %>
                             <div class="etiqueta etiqueta--item etiqueta--pequeno etiqueta--dark mb-2">
                                 <div class="etiqueta__conteudo">
@@ -91,20 +101,32 @@
                                 </div>
                             </div>
                         <% } %>
-                        <% if (itens.length == 0) { %>
-                            <div class="checklist__item mt-5">
-                                <div class="text-center w-100">Lista vazia!</div>
-                            </div>
-                        <% } %>
                     </div>
+                    <% if (itens.length == 0) { %>
+                        <div class="h-100 d-flex flex-column align-items-center justify-content-center">
+                            <img class="mb-3" style="width:100px" src="/images/icons/blank-512x512.png" alt="Ícone de lixeira" />
+                            <p class="text-center fw-bold mb-0">Lista vazia!</p>
+                            <p class="text-center">Clique no botão <span style="color:#7F07F0">Adicionar</span> para adicionar um item!</p>
+                        </div>
+                    <% } %>
                 </div>
              </section>
         </article>
+        <button id="botaoAdicionar" type="button" class="btn btn-primary botao--absoluto-inferior" style="border-radius:100%;" data-bs-toggle="modal" data-bs-target="#modalCriarItem">
+          <i class="fa-solid fa-plus"></i>
+        </button>
     </main>
+
+    <%- include('./_modalCriarItem.ejs') %>
+    <%- include('./_modalRenomearLista.ejs') %>
 
     <%- include('../partials/scripts') %>
 
     <script>
+        function submitForm(formId) {
+          $(`#${formId}`).trigger('submit');
+        }
+
         function excluirLista(id) {
             Swal.fire({
                 title: "Tem certeza que deseja excluir a lista?",
@@ -163,6 +185,46 @@
                     window.location.reload()
                 })
             })
+        }
+
+        function criarItem(e) {
+            e.preventDefault()
+
+            e.target.classList.add("was-validated")
+
+            var listaId = document.getElementById("listaId").value
+            var form = document.getElementById("formCriarItem")
+            var formData = new FormData(form)
+
+            if (e.target.checkValidity()) {
+                $.ajax({
+                    url: "/item/criar",
+                    type: "post",
+                    data: JSON.stringify({
+                        nome: formData.get("nome"),
+                        quantidade: parseInt(formData.get("quantidade")),
+                        preco: parseFloat(formData.get("preco")),
+                        listaId: listaId
+                    }),
+                    contentType: "application/json"
+                }).done(function () {
+                    Swal.fire({
+                        title: "Sucesso",
+                        text: `O item "${formData.get("nome")}" foi criado com sucesso!`,
+                        icon: "success"
+                    }).then(function () {
+                        window.location.reload()
+                    })
+                }).fail(function () {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Ocorreu um erro ao criar o item!",
+                        icon: "error"
+                    }).then(function () {
+                        window.location.reload()
+                    })
+                })
+            }
         }
 
         function diminuirItem(id) {

@@ -34,7 +34,7 @@
         <div class="flex-fill">
 
           <%# listas %>
-          <div class="container p-0" style="max-width: 500px;">
+          <div class="container p-0" style="max-width: 500px;padding-bottom:80px !important;">
             <% for(var lista of listas) { %>
             <div class="etiqueta etiqueta--lista">
               <a class="etiqueta__conteudo d-flex justify-content-between" style="color:white !important" href="/lista/<%= lista.id %>">
@@ -50,8 +50,24 @@
                   <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><button type="button" class="btn dropdown-item" onclick="abrirModalRenomearLista(<%= lista.id %>)">Renomear</button></li>
-                  <li><button type="button" class="btn dropdown-item" onclick="excluirLista(<%= lista.id %>)">Excluir</button></li>
+                  <li>
+                    <button type="button" class="btn dropdown-item">
+                        <i class="fa-solid fa-share-nodes me-2"></i>
+                        Compartilhar
+                    </button>
+                  </li>
+                  <li>
+                      <button type="button" class="btn dropdown-item" onclick="abrirModalRenomearLista(<%= lista.id %>)">
+                          <i class="fa-solid fa-pen me-2"></i>
+                          Renomear
+                      </button>
+                  </li>
+                  <li>
+                      <button type="button" class="btn dropdown-item" onclick="excluirLista(<%= lista.id %>)">
+                          <i class="fa-solid fa-trash me-2"></i>
+                          Excluir
+                      </button>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -60,7 +76,7 @@
 
           <% if (listas.length == 0) { %>
           <div class="h-100 d-flex flex-column align-items-center justify-content-center">
-            <img class="mb-3" style="width:100px" src="/images/favicon/android-chrome-512x512.png" alt="Ícone de lista" />
+            <img class="mb-3" style="width:100px" src="/images/icons/list-512x512.png" alt="Ícone de lista" />
             <p class="text-center fw-bold mb-0">Você ainda não criou nenhuma lista!</p>
             <p class="text-center">Clique no botão <span style="color:#7F07F0">Adicionar</span> para criar uma nova lista!</p>
           </div>
