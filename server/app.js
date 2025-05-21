@@ -15,10 +15,10 @@ app.set('view engine', 'ejs');
 
 
 // Rotas de API - que retornam json
-const itemRoutes = require('./routes/api/itemRoutes');
-const listaRoutes = require('./routes/api/listaRoutes');
-const usuarioRoutes = require('./routes/api/usuarioRoutes');
-const authRoutes = require('./routes/api/authRoutes');
+const itemRoutes = require('./routes/data/itemRoutes');
+const listaRoutes = require('./routes/data/listaRoutes');
+const usuarioRoutes = require('./routes/data/usuarioRoutes');
+const authRoutes = require('./routes/data/authRoutes');
 
 app.use('/api/itens', itemRoutes);
 app.use('/api/listas', listaRoutes);
