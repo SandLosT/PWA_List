@@ -5,6 +5,9 @@ module.exports = {
   listar: async (req, res) => {
     try {
 
+      var token = jwtService.extrairToken(req);
+      var payload = jwtService.extrairPayload(token);
+
       const listas = await listaService.listar();
 
       res.status(200).json(listas);

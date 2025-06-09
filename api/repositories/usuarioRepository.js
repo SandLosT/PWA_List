@@ -12,9 +12,27 @@ module.exports = {
     }
   },
 
-  listar: async () => {
+  update: async (id, usuario) => {
+    try {
+
+      const docRef = await db.collection('usuarios').doc(id);
+      docRef.update(usuario);
+
+      return true;
+    } catch (error) {
+
+      return false;
+    }
+  },
+
+  findAll: async () => {
     const snapshot = await db.collection('usuarios').get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
+  findById: async (id) => {
+    const doc = await db.collection('usuarios').doc(id).get();
+    return doc.exists ? { id: doc.id, ...doc.data() } : null;
   },
 
   findByEmail: async (email) => {

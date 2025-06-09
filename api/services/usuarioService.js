@@ -1,11 +1,17 @@
-const userRepository = require('../repositories/usuarioRepository');
+const usuarioRepository = require('../repositories/usuarioRepository');
+const passwordService = require('./passwordService');
 
 module.exports = {
-  listar: async () => {
-    return await userRepository.listar();
+  findAll: async () => {
+    return await usuarioRepository.findAll();
+  },
+  findById: async (id) => {
+    return await usuarioRepository.findById(id); 
   },
   findByEmail: async (email) => {
-    if (!email) throw new Error('Email é obrigatório');
-    return await userRepository.findByEmail(email);
+    return await usuarioRepository.findByEmail(email);
+  },
+  update: async (id, usuario) => {
+    return await usuarioRepository.update(id, usuario);
   }
 };

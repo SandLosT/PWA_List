@@ -1,7 +1,7 @@
 const usuarioRepository = require('../repositories/usuarioRepository');
 const passwordService = require('./passwordService');
 const jwt = require('jsonwebtoken');
-const jwtService = require('./jwtService');
+const { SECRET_KEY } = require('./jwtService');
 
 module.exports = {
   login: async (email, senha) => {
@@ -25,7 +25,7 @@ module.exports = {
           id: usuario.id
         }
       },
-      jwtService.SECRET_KEY,
+      SECRET_KEY,
       {
         expiresIn: '1h'
       }

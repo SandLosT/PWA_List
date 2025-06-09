@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
-const AuthController = require('../controllers/authController');
 
-router.get('/', usuarioController.listar);
-router.post('/registrar', AuthController.register);
-router.post('/login', AuthController.login);
+router.get('/:id', usuarioController.findById);
+router.get('/', usuarioController.findAll);
+router.get('/find-by-email/:email', usuarioController.findByEmail);
+router.put('/:id', usuarioController.update);
 
 module.exports = router;

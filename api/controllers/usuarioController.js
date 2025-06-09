@@ -1,12 +1,12 @@
-const { findByEmail } = require('../repositories/usuarioRepository');
 const usuarioService = require('../services/usuarioService');
+const passwordService = require('../services/passwordService');
 
 module.exports = {
 
-  listar: async (req, res) => {
+  findAll: async (req, res) => {
     try {
 
-      const usuarios = await usuarioService.listar();
+      const usuarios = await usuarioService.findAll();
 
       res.status(200).json(usuarios);
     } catch (error) {
@@ -14,12 +14,12 @@ module.exports = {
       res.status(500).json({ error: 'Erro ao listar usuários' });
     }
   },
-  findByEmail: async (req, res) => { 
+
+  findById: async (req, res) => {
     try {
+      const id = req.params.id;
 
-      const { email } = req.params;
-
-      const usuario = await findByEmail(email);
+      const usuario = await usuarioService.findById(id);
 
       if (!usuario) {
         return res.status(404).json({ error: 'Usuário não encontrado' });
@@ -27,8 +27,54 @@ module.exports = {
 
       res.status(200).json(usuario);
     } catch (error) {
-      
+
       res.status(500).json({ error: 'Erro ao buscar usuário' });
     }
-  }
+  },
+
+  findByEmail: async (req, res) => {
+    try {
+
+      const { email } = req.params;
+
+      const usuario = await usuarioService.findByEmail(email);
+
+      if (!usuario) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+
+      res.status(200).json(usuario);
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+
+      const id = req.params.id;
+      const { nome, email, senha } = req.body;
+
+      const usuario = await usuarioService.findById(id);
+
+      if (!usuario) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+
+      usuario.nome = nome ?? usuario.nome;
+      usuario.email = email ?? usuario.email;
+
+      if (senha) {
+        usuario.senha = passwordService.generatePasswordHash(senha);
+      }
+
+      await usuarioService.update(id, usuario);
+
+      res.status(200).json();
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao atualizar usuário' });
+    }
+  },
 };
