@@ -4,7 +4,7 @@ const usuarioController = require('../controllers/usuarioController');
 
 router.get('/:id', usuarioController.findById);
 router.get('/', usuarioController.findAll);
-router.get('/find-by-email/:email', usuarioController.findByEmail);
+router.get('/email/:email', usuarioController.findByEmail);
 router.put('/:id', usuarioController.update);
 
 module.exports = router;

@@ -1,24 +1,23 @@
 const itemRepository = require('../repositories/itemRepository');
 
 module.exports = {
-  listarPorLista: async (listaId) => {
-    if (!listaId) throw new Error('Lista ID é obrigatório');
-    return await itemRepository.listarPorLista(listaId);
+  create: async (listaId, dados) => {
+    return await itemRepository.create(listaId, dados);
   },
 
-  adicionar: async (listaId, novoItem) => {
-    if (!listaId || !novoItem?.nome) throw new Error('Dados inválidos');
-    console.log('Adicionando item:', novoItem.nome);
-    return await itemRepository.adicionar(listaId, novoItem);
+  update: async (listaId, itemId, dados) => {
+    await itemRepository.update(listaId, itemId, dados);
   },
 
-  atualizar: async (listaId, itemId, dados) => {
-    if (!listaId || !itemId || !dados) throw new Error('Parâmetros inválidos');
-    await itemRepository.atualizar(listaId, itemId, dados);
+  findById: async (id) => {
+    return await itemRepository.findById(id);
+  },
+  
+  findByList: async (listaId) => {
+    return await itemRepository.findByList(listaId);
   },
 
-  excluir: async (listaId, itemId) => {
-    if (!listaId || !itemId) throw new Error('Parâmetros obrigatórios');
-    await itemRepository.excluir(listaId, itemId);
+  delete: async (listaId, itemId) => {
+    await itemRepository.delete(listaId, itemId);
   }
 };

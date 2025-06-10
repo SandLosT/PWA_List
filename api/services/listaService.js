@@ -1,27 +1,27 @@
 const listaRepository = require('../repositories/listaRepository');
 
 module.exports = {
-  listar: async () => {
-    return await listaRepository.listar();
+  findAll: async () => {
+    return await listaRepository.findAll();
   },
 
-  visualizar: async (id) => {
-    if (!id) throw new Error('ID é obrigatório');
-    return await listaRepository.visualizar(id);
+  findById: async (id) => {
+    return await listaRepository.findById(id);
   },
 
-  criar: async (novaLista) => {
-    if (!novaLista?.nome) throw new Error('Nome da lista é obrigatório');
-    return await listaRepository.criar(novaLista);
+  findByUserId: async (usuarioId) => {
+    return await listaRepository.findByUserId(usuarioId);
   },
 
-  atualizar: async (id, dados) => {
-    if (!id || !dados) throw new Error('Parâmetros inválidos');
-    await listaRepository.atualizar(id, dados);
+  create: async (dados) => {
+    await listaRepository.create(dados);
   },
 
-  excluir: async (id) => {
-    if (!id) throw new Error('ID é obrigatório');
-    await listaRepository.excluir(id);
+  update: async (id, dados) => {
+    await listaRepository.update(id, dados);
+  },
+
+  delete: async (id) => {
+    await listaRepository.delete(id);
   }
 };

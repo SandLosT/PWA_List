@@ -2,30 +2,26 @@ const { db } = require('../firebase');
 const Item = require('../models/itemModel');
 
 module.exports = {
-  listarPorLista: async (listaId) => {
-    const snapshot = await db.collection('listas').doc(listaId).collection('itens').get();
-
-    // debug
-    snapshot.docs.forEach(x => console.log(x.data()));
-
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...Item.fromFirestore(doc.data())
-    }));
+  create: async (listaId, dados) => {
+    const item = new Item(dados);
+    await db.collection('listas').doc(listaId).collection('itens').add(item.toFirestore());
   },
 
-  adicionar: async (listaId, novoItemData) => {
-    const item = new Item(novoItemData); // valida
-    const docRef = await db.collection('listas').doc(listaId).collection('itens').add(item.toFirestore());
-    return { id: docRef.id };
-  },
-
-  atualizar: async (listaId, itemId, dados) => {
-    const item = new Item(dados); // valida
+  update: async (listaId, itemId, dados) => {
+    const item = new Item(dados);
     await db.collection('listas').doc(listaId).collection('itens').doc(itemId).update(item.toFirestore());
   },
 
-  excluir: async (listaId, itemId) => {
+  findById: async (id) => {
+
+  },
+
+  findByList: async (listaId) => {
+    const snapshot = await db.collection('listas').doc(listaId).collection('itens').get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...Item.fromFirestore(doc.data())}));
+  },
+
+  delete: async (listaId, itemId) => {
     await db.collection('listas').doc(listaId).collection('itens').doc(itemId).delete();
   }
 };
