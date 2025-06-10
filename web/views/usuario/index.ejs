@@ -14,10 +14,51 @@
    
     <%- include('../partials/_header') %>
 
-    <main>
-        <article>
-            <!-- Coloque aqui o conteúdo central da página -->
-        </article>
+    <main class="position-relative">
+      <article class="d-flex flex-column px-3">
+        <section class="d-flex flex-column flex-fill">
+          <div>
+            <div class="d-flex align-items-center justify-content-between mt-3 mb-3">
+                <div class="d-flex align-items-center">
+                  <a class="btn btn-ligth" href="/">
+                    <i class="fa-solid fa-arrow-left"></i>
+                  </a>
+                  <h3 class="m-0">Meu perfil</h3>
+              </div>
+              <%- include('./_contextMenuUsuario') %>
+            </div>
+            <hr />
+          </div>
+          <div class="flex-fill">
+            <div class="container p-0" style="max-width: 500px;padding-bottom:80px !important;">
+                <p class="h4 mb-4">Informações pessoais</p>
+                <form id="formEditarUsuario" class="formulario p-0 needs-validation" onsubmit="editarUsuario(event)" novalidate >
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite o seu nome" disabled required />
+                    <label for="nome">Nome</label>
+                    <div class="invalid-feedback">
+                      Campo obrigatório!
+                    </div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" minlength="4" name="username" id="username" placeholder="Digite o seu nome de usuário" disabled required />
+                    <label for="username">Nome de usuário</label>
+                    <div class="invalid-feedback">
+                      O nome de usuário deve ter pelo menos 4 caracteres!
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-end" style="gap:10px">
+                    <button type="button" class="btn btn-primary">Editar</button>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-end" style="gap:10px;display:none !important">
+                    <button type="button" class="btn btn-light">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </section>
+      </article>
     </main>
 
     <%- include('../partials/_scripts') %>
