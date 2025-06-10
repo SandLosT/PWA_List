@@ -13,5 +13,8 @@ module.exports = {
   },
   update: async (id, usuario) => {
     return await usuarioRepository.update(id, usuario);
-  }
+  },
+  delete: async (id) => {
+    await usuarioRepository.delete(id);
+  },
 };

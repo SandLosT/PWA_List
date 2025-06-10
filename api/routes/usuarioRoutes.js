@@ -6,5 +6,6 @@ router.get('/:id', usuarioController.findById);
 router.get('/', usuarioController.findAll);
 router.get('/email/:email', usuarioController.findByEmail);
 router.put('/:id', usuarioController.update);
+router.delete('/:id', usuarioController.delete);
 
 module.exports = router;

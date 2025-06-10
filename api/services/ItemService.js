@@ -9,8 +9,8 @@ module.exports = {
     await itemRepository.update(listaId, itemId, dados);
   },
 
-  findById: async (id) => {
-    return await itemRepository.findById(id);
+  findById: async (listaId, itemId) => {
+    return await itemRepository.findById(listaId, itemId);
   },
   
   findByList: async (listaId) => {

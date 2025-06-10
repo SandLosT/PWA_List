@@ -53,7 +53,6 @@ module.exports = {
   update: async (req, res) => {
     try {
 
-      const id = req.params.id;
       const { nome, email, senha } = req.body;
 
       const usuario = await usuarioService.findById(id);
@@ -69,12 +68,24 @@ module.exports = {
         usuario.senha = passwordService.generatePasswordHash(senha);
       }
 
-      await usuarioService.update(id, usuario);
+      await usuarioService.update(req.params.id, usuario);
 
       res.status(200).json();
     } catch (error) {
 
       res.status(500).json({ error: 'Erro ao atualizar usuário' });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+
+      await usuarioService.delete(req.params.id);
+
+      res.status(204).json();
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao excluir usuário' });
     }
   },
 };

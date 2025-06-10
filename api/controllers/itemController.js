@@ -6,11 +6,11 @@ module.exports = {
 
       const { nome, quantidade, preco } = req.body;
 
-      const id = await itemService.create(req.params.listaId, { nome, quantidade, preco });
+      await itemService.create(req.params.listaId, { nome, quantidade, preco });
 
-      res.status(201).json({ id });
+      res.status(201).json();
     } catch (error) {
-      console.log(error)
+      
       res.status(500).json({ error: 'Erro ao adicionar item' });
     }
   },
@@ -18,15 +18,21 @@ module.exports = {
   update: async (req, res) => {
     try {
 
-      const item = await itemService.findById(req.params.id);
+      const { nome, quantidade, preco } = req.body;
+
+      const item = await itemService.findById(req.params.listaId, req.params.itemId);
 
       if (!item) {
         return res.status(404).json({ error: 'Item não encontrado' });
       }
-      
-      await itemService.update(req.params.id, req.body.listaId, req.body);
 
-      res.status(200).json({ ok: true });
+      item.nome = nome ?? item.nome;
+      item.quantidade = quantidade ?? item.quantidade;
+      item.preco = preco ?? item.preco;
+      
+      await itemService.update(req.params.listaId, req.body.itemId, item);
+
+      res.status(200).json();
     } catch (error) {
 
       res.status(500).json({ error: 'Erro ao atualizar item' });
@@ -36,7 +42,11 @@ module.exports = {
   findById: async (req, res) => {
     try {
 
-      var item = await itemService.findById(req.params.id);
+      var item = await itemService.findById(req.params.listaId, req.params.itemId);
+
+      if (!item) {
+        return res.status(404).json({ error: 'Item não encontrado' });
+      }
 
       res.status(200).json(item);
     } catch (error) {
@@ -60,9 +70,9 @@ module.exports = {
   delete: async (req, res) => {
     try {
 
-      await itemService.delete(req.params.id, req.body.listaId);
+      await itemService.delete(req.params.listaId, req.body.itemId);
 
-      res.status(200).json({ ok: true });
+      res.status(204).json();
     } catch (error) {
 
       res.status(500).json({ error: 'Erro ao excluir item' });

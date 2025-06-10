@@ -41,4 +41,8 @@ module.exports = {
     const doc = snapshot.docs[0];
     return { id: doc.id, ...doc.data() };
   },
+
+  delete: async (id) => {
+    await db.collection('usuarios').doc(id).delete();
+  },
 };

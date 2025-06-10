@@ -12,8 +12,9 @@ module.exports = {
     await db.collection('listas').doc(listaId).collection('itens').doc(itemId).update(item.toFirestore());
   },
 
-  findById: async (id) => {
-
+  findById: async (listaId, itemId) => {
+    const doc = await db.collection('listas').doc(listaId).collection('itens').doc(itemId).get();
+    return doc.exists ? { id: doc.id, ...doc.data() } : null;
   },
 
   findByList: async (listaId) => {

@@ -4,8 +4,8 @@ const itemController = require('../controllers/itemController');
 
 router.get('/lista/:listaId', itemController.findByList);
 router.post('/lista/:listaId', itemController.create);
-router.get('/:id', itemController.findById);
-router.put('/:id', itemController.update);
-router.delete('/:id', itemController.delete);
+router.get('/:itemId/lista/:listaId', itemController.findById);
+router.put('/:itemId/lista/:listaId', itemController.update);
+router.delete('/:itemId/lista/:listaId', itemController.delete);
 
 module.exports = router;
