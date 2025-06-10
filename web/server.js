@@ -28,6 +28,11 @@ app.get('/service-worker', (req, res) => {
     res.sendFile(path.join(__dirname, 'service-worker.js'))
 })
 
+// settings file
+app.get('/settings', (req, res) => {
+    res.sendFile(path.join(__dirname, 'settings.json'))
+})
+
 const PORT = 8081
 app.listen(PORT, () => {
     console.log(`The app is listening on port ${PORT}`)

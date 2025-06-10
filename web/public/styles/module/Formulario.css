@@ -10,11 +10,30 @@
     max-width: 500px;
 }
 
-.formulario__botao {
-    width: 100% !important;
-}
+    .formulario__botao {
+        width: 100% !important;
+    }
 
-.formulario__botao--enviar {
-    background-color: var(--base-color) !important;
-    color: white !important;
-}
+    .formulario__botao--enviar {
+        background-color: var(--base-color) !important;
+        color: white !important;
+    }
+
+    .formulario__rodape {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+        justify-content: end;
+    }
+
+    .formulario__rodape--edit {
+        display: none;
+    }
+    
+    .formulario--aberto .formulario__rodape {
+        display: none;
+    }
+
+    .formulario--aberto .formulario__rodape--edit {
+        display: flex;
+    }

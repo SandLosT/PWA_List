@@ -7,6 +7,7 @@
     <title>Make It List - Meu perfil</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Formulario.css" />
     <%- include('../partials/_styles') %>
 </head>
 
@@ -47,11 +48,11 @@
                       O nome de usuário deve ter pelo menos 4 caracteres!
                     </div>
                   </div>
-                  <div class="d-flex align-items-center justify-content-end" style="gap:10px">
-                    <button type="button" class="btn btn-primary">Editar</button>
+                  <div class="formulario__rodape">
+                    <button type="button" class="btn btn-primary" onclick="habilitarFormulario()">Editar</button>
                   </div>
-                  <div class="d-flex align-items-center justify-content-end" style="gap:10px;display:none !important">
-                    <button type="button" class="btn btn-light">Cancelar</button>
+                  <div class="formulario__rodape formulario__rodape--edit">
+                    <button type="button" class="btn btn-light" onclick="desabilitarFormulario()">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar</button>
                   </div>
                 </form>
@@ -62,6 +63,24 @@
     </main>
 
     <%- include('../partials/_scripts') %>
+    <%- include('../partials/_scriptsAuthentication') %>
+    
+    <script src="/scripts/CRUD/listaCRUD.js"></script>
+
+    <script>
+      function habilitarFormulario() {
+        $('#nome').prop('disabled', false)
+        $('#username').prop('disabled', false)
+        $('#formEditarUsuario').addClass('formulario--aberto')
+      }
+
+      function desabilitarFormulario() {
+        document.getElementById('formEditarUsuario').reset()
+        $('#nome').prop('disabled', true)
+        $('#username').prop('disabled', true)
+        $('#formEditarUsuario').removeClass('formulario--aberto')
+      }
+    </script>
 
 </body>
 
