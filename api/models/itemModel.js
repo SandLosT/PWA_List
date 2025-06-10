@@ -1,5 +1,5 @@
 class Item {
-  constructor({ nome, quantidade, preco, criadoEm = null }) {
+  constructor({ nome, quantidade, preco }) {
     if (!nome || typeof nome !== 'string') {
       throw new Error('O nome do item é obrigatório e deve ser uma string');
     }
@@ -15,7 +15,7 @@ class Item {
     this.nome = nome;
     this.quantidade = quantidade;
     this.preco = preco;
-    this.criadoEm = criadoEm || new Date().toISOString();
+    this.criadoEm = new Date().toISOString();
   }
 
   toFirestore() {

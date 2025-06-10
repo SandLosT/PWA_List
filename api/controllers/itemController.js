@@ -70,11 +70,11 @@ module.exports = {
   delete: async (req, res) => {
     try {
 
-      await itemService.delete(req.params.listaId, req.body.itemId);
+      await itemService.delete(req.params.listaId, req.params.itemId);
 
       res.status(204).json();
     } catch (error) {
-
+      console.log(error)
       res.status(500).json({ error: 'Erro ao excluir item' });
     }
   }

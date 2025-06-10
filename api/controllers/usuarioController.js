@@ -50,12 +50,36 @@ module.exports = {
     }
   },
 
+  existsByEmail: async (req, res) => {
+    try {
+
+      var existe = await usuarioService.existsByEmail(req.params.email);
+
+      res.status(200).json({ existe });
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+  },
+
+  existsByUsername: async (req, res) => {
+    try {
+
+      var existe = await usuarioService.existsByUsername(req.params.username);
+
+      res.status(200).json({ existe });
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+  },
+
   update: async (req, res) => {
     try {
 
-      const { nome, email, senha } = req.body;
+      const { nome, email, username, senha } = req.body;
 
-      const usuario = await usuarioService.findById(id);
+      const usuario = await usuarioService.findById(req.params.id);
 
       if (!usuario) {
         return res.status(404).json({ error: 'Usuário não encontrado' });
@@ -63,6 +87,7 @@ module.exports = {
 
       usuario.nome = nome ?? usuario.nome;
       usuario.email = email ?? usuario.email;
+      usuario.username = username ?? usuario.username;
 
       if (senha) {
         usuario.senha = passwordService.generatePasswordHash(senha);

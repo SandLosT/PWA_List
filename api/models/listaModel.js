@@ -1,5 +1,5 @@
 class Lista {
-  constructor({ nome, usuarioId, criadaEm = null }) {
+  constructor({ nome, usuarioId }) {
     if (!nome || typeof nome !== 'string') {
       throw new Error('O nome da lista é obrigatório e deve ser uma string');
     }
@@ -10,14 +10,14 @@ class Lista {
 
     this.nome = nome;
     this.usuarioId = usuarioId;
-    this.criadaEm = criadaEm || new Date().toISOString();
+    this.criadoEm = new Date().toISOString();
   }
 
   toFirestore() {
     return {
       nome: this.nome,
       usuarioId: this.usuarioId,
-      criadaEm: this.criadaEm
+      criadoEm: this.criadoEm
     };
   }
 

@@ -31,6 +31,12 @@ module.exports = {
   },
 
   delete: async (id) => {
+    
+    await db.collection('listas').doc(id)
+      .collection('itens')
+      .listDocuments()
+      .forEach(x => x.delete());
+
     await db.collection('listas').doc(id).delete();
   }
 };

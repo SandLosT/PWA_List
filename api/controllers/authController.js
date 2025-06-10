@@ -15,10 +15,10 @@ module.exports = {
   },
 
   register: async (req, res) => {
-    const { nome, email, senha } = req.body;
+    const { nome, email, username, senha } = req.body;
 
     try {
-      await authService.register(email, senha, nome);
+      await authService.register({ nome, email, username, senha });
 
       res.status(201).json();
     } catch (error) {

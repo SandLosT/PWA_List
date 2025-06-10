@@ -34,20 +34,18 @@ module.exports = {
     return token;
   },
 
-  register: async (email, senha, nome) => {
+  register: async (dados) => {
 
-    if (!email || !senha || !nome) {
-      throw new Error('Nome, email e senha são obrigatórios');
-    }
-
-    const usuario = await usuarioRepository.findByEmail(email);
-
-    if (usuario) {
+    if (await usuarioRepository.existsByEmail(dados.email)) {
       throw new Error('E-mail já existe');
     }
 
-    var senhaHash = passwordService.generatePasswordHash(senha);
+    if (await usuarioRepository.existsByUsername(dados.username)) {
+      throw new Error('Nome de usuário já existe');
+    }
 
-    return await usuarioRepository.create(nome, email, senhaHash);
+    dados.senha = passwordService.generatePasswordHash(dados.senha);
+
+    return await usuarioRepository.create(dados);
   }
 };
