@@ -1,7 +1,7 @@
-import { API_BASIC_ADDRESS } from '../modules/settings.js'
-
-function editarUsuario(e) {
+async function editarUsuario(e) {
     e.preventDefault()
+    
+    // const apiBasicAddress = await getApiBasicAddress();
 
     e.target.classList.add("was-validated")
 
@@ -9,7 +9,7 @@ function editarUsuario(e) {
 
     if (e.target.checkValidity()) {
         $.ajax({
-            url: API_BASIC_ADDRESS + "/api/usuarios/" + formData.get('id'),
+            url: "/usuarios/" + formData.get('id'),
             type: "put",
             data: JSON.stringify({
                 nome: formData.get("nome"),

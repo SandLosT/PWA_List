@@ -24,9 +24,9 @@
 
 <body>
 
-    <%- include('../partials/_header') %>
+    <%- include('../partials/_header', isAuthenticated) %>
 
-        <input id="listaId" type="hidden" value="<%= id %>" />
+        <input id="listaId" type="hidden" value="<%= lista.id %>" />
 
         <main class="position-relative">
             <article class="d-flex flex-column px-3">
@@ -38,17 +38,17 @@
                                     <i class="fa-solid fa-arrow-left"></i>
                                 </a>
                                 <h3 class="m-0">
-                                    <%= titulo %>
+                                    <%= lista.nome %>
                                 </h3>
                             </div>
-                            <%- include('./_contextMenuLista', { id }) %>
+                            <%- include('./_contextMenuLista', { id: lista.id }) %>
                         </div>
                         <hr />
                     </div>
                     <div class="flex-fill">
-                        <% if (itens.length> 0) { %>
+                        <% if (lista.itens.length> 0) { %>
                         <div class="container p-0" style="max-width: 500px;padding-bottom:80px !important;">
-                            <% for (var item of itens) { %>
+                            <% for (var item of lista.itens) { %>
                             <div class="etiqueta etiqueta--item etiqueta--pequeno etiqueta--dark mb-2" style="gap:.25rem">
                                 <div class="etiqueta__conteudo d-flex flex-wrap justify-content-between" style="gap:.5rem">
                                     <div class="flex-fill">
@@ -100,10 +100,10 @@
 
     <script>
         function abrirModalRenomearLista(id) {
-            $.get("/lista/pesquisarPorId/" + id, function (lista) {
+            $.get("/lista/pesquisar/id/" + id, function (lista) {
                 if (lista != null) {
                     $('#formRenomearLista').find('input[name="id"]').val(lista.id)
-                    $('#formRenomearLista').find('input[name="titulo"]').val(lista.titulo)
+                    $('#formRenomearLista').find('input[name="nome"]').val(lista.nome)
                     $('#modalRenomearLista').modal('show')
                 } else {
                     Swal.fire({

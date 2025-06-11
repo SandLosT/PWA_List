@@ -1,2 +1,0 @@
-exports.listas = []
-exports.usuarios = []

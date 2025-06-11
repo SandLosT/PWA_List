@@ -9,7 +9,7 @@ const jwtService = require('../services/jwtService');
  * @param next Referência para o próximo *middleware*.
  * @returns 
  */
-exports.validateToken = (request, response, next) => {
+exports.authentication = (request, response, next) => {
     let authorizationHeader = request.headers.authorization;
     if (!authorizationHeader) {
         return response.status(401).json("Acesso negado. É obrigatório informar o token no cabeçalho 'authorization'!");
@@ -20,7 +20,7 @@ exports.validateToken = (request, response, next) => {
     }
     try {
         jwt.verify(token[1], jwtService.SECRET_KEY);
-        return next();
+        next();
     } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
             return response.status(401).json(`Acesso negado. O token expirou em ${error.expiredAt}!`);

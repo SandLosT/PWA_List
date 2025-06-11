@@ -23,7 +23,7 @@
 
 <body>
 
-  <%- include('../partials/_header') %>
+  <%- include('../partials/_header', isAuthenticated) %>
 
     <main class="position-relative">
       <article class="d-flex flex-column px-3">
@@ -43,7 +43,7 @@
             <div class="etiqueta etiqueta--lista">
               <a class="etiqueta__conteudo d-flex flex-wrap justify-content-between" style="color:white !important" href="/lista/<%= lista.id %>">
                 <div class="etiqueta__titulo">
-                  <%= lista.titulo %>
+                  <%= lista.nome %>
                 </div>
                 <div class="etiqueta__descricao">
                   <%= lista.itens.length %>/99 itens
@@ -78,10 +78,10 @@
 
   <script>
     function abrirModalRenomearLista(id) {
-      $.get("/lista/pesquisarPorId/" + id, function (lista) {
-        if (lista != null) {
+      $.get("/lista/pesquisar/id/" + id, function (lista) {
+        if (lista) {
           $('#formRenomearLista').find('input[name="id"]').val(lista.id)
-          $('#formRenomearLista').find('input[name="titulo"]').val(lista.titulo)
+          $('#formRenomearLista').find('input[name="nome"]').val(lista.nome)
           $('#modalRenomearLista').modal('show')
         } else {
           Swal.fire({

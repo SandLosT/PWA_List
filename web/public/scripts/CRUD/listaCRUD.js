@@ -11,18 +11,21 @@ function criarLista(e) {
             url: "/lista/criar/",
             type: "post",
             data: JSON.stringify({
-                titulo: formData.get("titulo")
+                nome: formData.get("nome")
             }),
             contentType: "application/json"
         }).done(function () {
             Swal.fire({
                 title: "Sucesso",
-                text: `A lista "${formData.get("titulo")}" foi criada com sucesso!`,
+                text: `A lista "${formData.get("nome")}" foi criada com sucesso!`,
                 icon: "success"
             }).then(function () {
                 window.location.reload()
             })
-        }).fail(function () {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR)
+            console.log(textStatus)
+            console.log(errorThrown)
             Swal.fire({
                 title: "Erro",
                 text: "Ocorreu um erro ao criar a lista!",
@@ -47,8 +50,7 @@ function editarLista(e) {
             url: "/lista/editar/" + formData.get("id"),
             type: "put",
             data: JSON.stringify({
-                id: formData.get("id"),
-                titulo: formData.get("titulo")
+                nome: formData.get("nome")
             }),
             contentType: "application/json"
         }).done(function () {
@@ -95,7 +97,10 @@ function excluirLista(id) {
                 }).then(function () {
                     window.location.reload()
                 })
-            }).fail(function () {
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR)
+                console.log(textStatus)
+                console.log(errorThrown)
                 Swal.fire({
                     title: "Erro!",
                     text: "Não foi possível excluir a lista!",

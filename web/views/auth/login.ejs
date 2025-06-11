@@ -36,11 +36,7 @@
 
 <body>
 
-  <% if (isAuthenticated) { %>
-  <%- include('../partials/_header') %>
-  <% } else { %>
-  <%- include('../partials/unauthenticated/_header') %>
-  <% } %>
+  <%- include('../partials/_header', isAuthenticated) %>
 
   <main class="overflow-hidden">
     <article class="d-flex align-items-stretch h-100">
@@ -109,7 +105,8 @@
 
   <%- include('../partials/_scripts') %>
 
-  <script src="/scripts/auth/login.js"></script>
+  <script src="/scripts/login.js"></script>
+  <script src="/scripts/session.js"></script>
 
 </body>
 

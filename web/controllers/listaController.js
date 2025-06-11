@@ -1,90 +1,137 @@
-var express = require('express')
-var router = express.Router()
-var db = require('../test/inMemoryDb')
+const express = require('express')
+const router = express.Router()
+const settings = require('../settings.json')
+const API_BASIC_ADDRESS = settings.servers['PWA_List.API'].address.basicAddress
 
-var ID_SEQUENCIAL = 0
+router.get('/:id', async (req, res) => {
+    const token = req.cookies.token
+    
+    const response = await fetch(API_BASIC_ADDRESS + '/api/listas/' + req.params.id, {
+        method: 'get',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
 
-// pagina: Visualizar Lista
-router.get('/:id', (req, res) => {
-    var lista = db.listas.find(lista => lista.id == req.params.id)
-
-    if (lista == null || lista == undefined) {
-        res.redirect("/lista")
-        return
+    if (!response.ok) {
+        return res.redirect('/lista')
     }
 
-    res.render('lista/visualizar', lista)
+    const lista = await response.json()
+    
+    res.render('lista/visualizar', {
+        isAuthenticated: req.isAuthenticated,
+        lista: {
+            itens: [],
+            ...lista
+        }
+    })
 })
 
-router.get('/pesquisarPorId/:id', (req, res) => {
-    var lista = db.listas.find(lista => lista.id == req.params.id)
-    res.json(lista)
+router.get('/pesquisar/id/:id', async (req, res) => {
+    const token = req.cookies.token
+    
+    const response = await fetch(API_BASIC_ADDRESS + '/api/listas/' + req.params.id, {
+        method: 'get',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
+    }
+
+    const lista = await response.json()
+
+    res.status(200).json(lista)
 })
 
-// pagina: Minhas Listas
-router.get('/', (req, res) => {
-    console.log(db.listas)
+router.get('/', async (req, res) => {
+    const token = req.cookies.token
+
+    const response = await fetch(API_BASIC_ADDRESS + '/api/listas/usuario', {
+        method: 'get',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if (!response.ok) {
+        return res.redirect('/auth/login')
+    }
+
+    const listas = await response.json()
+
     res.render('lista/index', {
-        listas: db.listas
+        isAuthenticated: req.isAuthenticated,
+        listas: listas.map(lista => ({
+            itens: [],
+            ...lista
+        }))
     })
 })
 
-router.post('/criar', (req, res) => {
-    var body = req.body
+router.post('/criar', async (req, res) => {
+    const token = req.cookies.token
+    const { nome } = req.body
 
-    db.listas.push({
-        id: ++ID_SEQUENCIAL,
-        titulo: body.titulo,
-        itens: []
+    const response = await fetch(API_BASIC_ADDRESS + '/api/listas', {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({
+            nome: nome
+        })
     })
 
-    console.log(db.listas)
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
+    }
 
     res.status(201).send()
 })
 
-router.put('/editar/:id', (req, res) => {
-    if (!req.body) {
-        res.status(400).json({
-            titulo: 'Dados inválidos',
-            mensagem: 'A requisição deve ter corpo!',
-            timespan: new Date().getTime()
+router.put('/editar/:id', async (req, res) => {
+    const token = req.cookies.token
+    const { nome } = req.body
+
+    const response = await fetch(API_BASIC_ADDRESS + '/api/listas/' + req.params.id, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        method: 'put',
+        body: JSON.stringify({
+            nome: nome
         })
-        return
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
-
-    var index = db.listas.findIndex(lista => lista.id == req.params.id)
-
-    if (index == -1) {
-        res.status(404).json({
-            titulo: "Não encontrado",
-            mensagem: `A lista com id ${req.params.id} não existe!`,
-            timespan: new Date().getTime()
-        })
-        return
-    }
-    
-    var lista = db.listas.at(index)
-    lista.titulo = req.body.titulo
-
-    db.listas[index] = lista
 
     res.status(200).send()
 })
 
-router.delete('/excluir/:id', (req, res) => {
-    var index = db.listas.findIndex(lista => lista.id == req.params.id)
+router.delete('/excluir/:id', async (req, res) => {
+    const token = req.cookies.token
 
-    if (index == -1) {
-        res.status(404).json({
-            titulo: "Não encontrado",
-            mensagem: `A lista com id ${req.params.id} não existe!`,
-            timespan: new Date().getTime()
-        })
-        return
+    console.log({token})
+    console.log({listaId: req.params.id})
+
+    const response = await fetch(API_BASIC_ADDRESS + '/api/listas/' + req.params.id, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        method: 'delete'
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
-
-    db.listas.splice(index, 1)
 
     res.status(204).send()
 })

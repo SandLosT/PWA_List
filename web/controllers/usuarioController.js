@@ -1,5 +1,7 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
+const settings = require('../settings.json')
+const API_BASIC_ADDRESS = settings.servers['PWA_List.API'].address.basicAddress
 
 router.get('/', (req, res) => {
     res.render('usuario/index')
@@ -7,19 +9,6 @@ router.get('/', (req, res) => {
 
 router.get('/editar', (req, res) => {
     res.render('usuario/editar')
-})
-
-router.get('/email/:email', (req, res) => {
-    // verificar se o e-mail já existe
-    console.log(`email = ${req.params.email}`)
-
-    res.json(false)
-})
-
-router.get('/username/:username', (req, res) => {
-    // verificar se o nome de usuário já existe
-    console.log(`username = ${req.params.username}`)
-    res.json(false)
 })
 
 module.exports = router

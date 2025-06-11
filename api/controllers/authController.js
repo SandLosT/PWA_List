@@ -1,4 +1,5 @@
 const authService = require('../services/authService');
+const usuarioService = require('../services/usuarioService');
 
 module.exports = {
   login: async (req, res) => {
@@ -25,5 +26,29 @@ module.exports = {
 
       res.status(400).json({ error: error.message });
     }
-  }
+  },
+
+  existsByEmail: async (req, res) => {
+    try {
+
+      var existe = await usuarioService.existsByEmail(req.params.email);
+
+      res.status(200).json({ existe });
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+  },
+
+  existsByUsername: async (req, res) => {
+    try {
+
+      var existe = await usuarioService.existsByUsername(req.params.username);
+
+      res.status(200).json({ existe });
+    } catch (error) {
+
+      res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+  },
 };

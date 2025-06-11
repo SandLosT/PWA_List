@@ -50,30 +50,6 @@ module.exports = {
     }
   },
 
-  existsByEmail: async (req, res) => {
-    try {
-
-      var existe = await usuarioService.existsByEmail(req.params.email);
-
-      res.status(200).json({ existe });
-    } catch (error) {
-
-      res.status(500).json({ error: 'Erro ao buscar usuário' });
-    }
-  },
-
-  existsByUsername: async (req, res) => {
-    try {
-
-      var existe = await usuarioService.existsByUsername(req.params.username);
-
-      res.status(200).json({ existe });
-    } catch (error) {
-
-      res.status(500).json({ error: 'Erro ao buscar usuário' });
-    }
-  },
-
   update: async (req, res) => {
     try {
 

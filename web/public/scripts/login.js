@@ -1,9 +1,7 @@
 async function login(e) {
     e.preventDefault();
 
-    const API_BASIC_ADDRESS = await fetch('/settings')
-        .then(response => response.json())
-        .then(data => data.servers["PWA_List.API"].address)
+    // const apiBasicAddress = await getApiBasicAddress()
 
     e.target.classList.add("was-validated")
 
@@ -11,18 +9,16 @@ async function login(e) {
 
     if (e.target.checkValidity()) {
         $.ajax({
-            url: API_BASIC_ADDRESS + "/api/auth/login",
-            type: "post",
+            url: "/auth/login",
+            type: "POST",
             data: JSON.stringify({
                 email: formData.get("email"),
                 senha: formData.get("senha")
             }),
             contentType: "application/json"
-        }).done(function (token) {
-            localStorage.setItem("security-auth-jwt", token)
-            window.location.href = '/'
+        }).done(function () {
+            window.location.href = '/lista'
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR)
             if (jqXHR.status == 401) {
                 Swal.fire({
                     title: "Atenção",
@@ -32,7 +28,7 @@ async function login(e) {
             } else {
                 Swal.fire({
                     title: "Erro",
-                    text: "Ocorreu um erro ao realizar login!",
+                    text: "Ocorreu um erro ao realizar login: " + errorThrown || textStatus,
                     icon: "error"
                 }).then(function () {
                     window.location.reload()

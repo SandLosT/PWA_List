@@ -22,7 +22,8 @@ module.exports = {
     const token = jwt.sign(
       {
         usuario: {
-          id: usuario.id
+          id: usuario.id,
+          username: usuario.username
         }
       },
       SECRET_KEY,

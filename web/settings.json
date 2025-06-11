@@ -1,10 +1,18 @@
 {
     "servers": {
         "PWA_List.API": {
-            "scheme": "http",
-            "domain": "localhost",
-            "port": "8080",
-            "address": "http://localhost:8080"
+            "address": {
+                "scheme": "http",
+                "domain": "localhost",
+                "port": "8080",
+                "basicAddress": "http://localhost:8080"
+            },
+            "security": {
+                "authentication": {
+                    "type": "bearer",
+                    "JWT_SECRET": "2FAB00D652046FB187CEBA3ED1FCCAEE698154A0614B596C3B4F6E8A251F0690"
+                }
+            }
         }
     }
 }

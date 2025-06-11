@@ -14,11 +14,7 @@
 
 <body>
 
-  <% if (isAuthenticated) { %>
-  <%- include('../partials/_header') %>
-  <% } else { %>
-  <%- include('../partials/unauthenticated/_header') %>
-  <% } %>
+  <%- include('../partials/_header', isAuthenticated) %>
 
   <main>
     <article class="d-flex align-items-center h-100" id="article">
@@ -43,6 +39,19 @@
           Já tem uma conta?
           <a href="/auth/login">Faça login aqui</a>
         </div>
+      </form>
+
+      <%# Formulário de nome %>
+      <form id="formNome" class="formulario formulario--pequeno needs-validation" style="display:none" onsubmit="validarFormularioNome(event)" novalidate>
+        <div class="h3 mb-5 text-center fw-bold">Qual o seu nome?</div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="nome" placeholder="Digite o seu nome..." required />
+          <label for="nome">Nome</label>
+          <div class="invalid-feedback">
+            Campo obrigatório!
+          </div>
+        </div>
+        <button type="submit" class="btn formulario__botao formulario__botao--enviar">Avançar</button>
       </form>
 
       <%# Formulário de senha %>
@@ -142,6 +151,7 @@
   <%# Formulário escondido %>
   <form id="tempForm" action="auth/register" method="post" hidden novalidate>
     <input type="email" name="email" id="tempEmail" />
+    <input type="text" name="nome" id="tempNome" />
     <input type="password" name="senha" id="tempSenha" />
     <input type="text" name="username" id="tempUsername" />
     <input type="checkbox" value="true" checked="false" name="marketing" id="tempMarketing" />
@@ -158,8 +168,8 @@
       var email = document.getElementById("email").value
 
       if (e.target.checkValidity()) {
-        $.get("/usuario/email/" + email, function(resultado) {
-          if (resultado) {
+        $.get("/auth/existe/email/" + email, function(resultado) {
+          if (resultado.existe) {
             Swal.fire({
               title: "Atenção",
               text: "Esse e-mail já possui cadastro!",
@@ -168,7 +178,8 @@
           } else {
             document.getElementById("tempEmail").value = email
             $("#formEmail").hide()
-            $("#formSenha").show()
+            $("#formNome").show()
+            $("#formSenha").hide()
             $("#formUsername").hide()
             $("#formTermos").hide()
           }
@@ -185,6 +196,23 @@
 
     }
 
+    function validarFormularioNome(e) {
+      e.preventDefault()
+
+      e.target.classList.add("was-validated")
+
+      var nome = document.getElementById("nome").value
+
+      if (e.target.checkValidity()) {
+        document.getElementById('tempNome').value = nome
+        $("#formEmail").hide()
+        $('#formNome').hide()
+        $("#formSenha").show()
+        $("#formUsername").hide()
+        $("#formTermos").hide()
+      }
+    }
+
     function validarFormularioSenha(e) {
       e.preventDefault()
 
@@ -199,6 +227,7 @@
       document.getElementById("tempSenha").value = senha
 
       $("#formEmail").hide()
+      $('#formNome').hide()
       $("#formSenha").hide()
       $("#formUsername").show()
       $("#formTermos").hide()
@@ -240,8 +269,8 @@
       var username = document.getElementById("username").value
 
       if (e.target.checkValidity()) {
-        $.get("/usuario/username/" + username, function(resultado) {
-          if (resultado) {
+        $.get("/auth/existe/username/" + username, function(resultado) {
+          if (resultado.existe) {
             Swal.fire({
               title: "Atenção",
               text: "Esse nome de usuário já possui cadastro!",
@@ -250,6 +279,7 @@
           } else {
             document.getElementById("tempUsername").value = username
             $("#formEmail").hide()
+            $('#formNome').hide()
             $("#formSenha").hide()
             $("#formUsername").hide()
             $("#formTermos").show()
@@ -281,30 +311,20 @@
           url: "/auth/register",
           type: "post",
           data: JSON.stringify({
+            nome: formData.get("nome"),
             email: formData.get("email"),
-            senha: formData.get("senha"),
             username: formData.get("username"),
-            marketing: formData.get("marketing"),
+            senha: formData.get("senha")
           }),
           contentType: "application/json",
-        }).done(function(resultado) {
-          if (resultado) {
+        }).done(function() {
             Swal.fire({
               title: "Sucesso",
               text: "Cadastro concluído com sucesso!",
               icon: "success"
             }).then(function() {
-              window.location.href = "/auth/login"
+               window.location.href = "/auth/login"
             })
-          } else {
-            Swal.fire({
-              title: "Erro",
-              text: "Não foi possível concluir o cadastro! Entre em contato com o suporte!",
-              icon: "error"
-            }).then(function() {
-              window.location.reload()
-            })
-          }
         }).fail(function() {
           Swal.fire({
             title: "Erro",
