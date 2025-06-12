@@ -1,7 +1,5 @@
 async function editarUsuario(e) {
     e.preventDefault()
-    
-    // const apiBasicAddress = await getApiBasicAddress();
 
     e.target.classList.add("was-validated")
 
@@ -9,7 +7,7 @@ async function editarUsuario(e) {
 
     if (e.target.checkValidity()) {
         $.ajax({
-            url: "/usuarios/" + formData.get('id'),
+            url: '/usuario/editar',
             type: "put",
             data: JSON.stringify({
                 nome: formData.get("nome"),
@@ -34,5 +32,36 @@ async function editarUsuario(e) {
             })
         })
     }
+}
 
+function excluirCadastro() {
+    Swal.fire({
+        title: "Tem certeza que deseja excluir o seu cadastro?",
+        text: "Esta é uma ação permanente e não será possível desfazê-la! Você perderá acesso a todas as suas informações neste aplicativo!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#f8f9fa",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/usuario/excluir/',
+                type: "delete"
+            }).done(function () {
+                window.location.href = '/auth/login'
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                // console.log(jqXHR)
+                // console.log(textStatus)
+                // console.log(errorThrown)
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Não foi possível excluir o seu cadastro! Entre em contato com o nosso suporte via e-mail: support@makeitlist.com',
+                    icon: 'error'
+                })
+            })
+        }
+    });
 }

@@ -9,11 +9,16 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles/module/Formulario.css" />
     <%- include('../partials/_styles') %>
+    <style>
+      .swal2-cancel {
+        color: black;
+      }
+    </style>
 </head>
 
 <body>
    
-    <%- include('../partials/_header') %>
+    <%- include('../partials/_header', isAuthenticated) %>
 
     <main class="position-relative">
       <article class="d-flex flex-column px-3">
@@ -31,29 +36,57 @@
             <hr />
           </div>
           <div class="flex-fill">
-            <div class="container p-0" style="max-width: 500px;padding-bottom:80px !important;">
-                <p class="h4 mb-4">Informações pessoais</p>
-                <form id="formEditarUsuario" class="formulario p-0 needs-validation" onsubmit="editarUsuario(event)" novalidate >
+            <div class="container p-0 pt-3" style="max-width: 500px;padding-bottom:80px !important;">
+                <p class="h4 mb-3">Informações pessoais</p>
+                <hr />
+                <form id="formNome" class="formulario p-0 needs-validation" onsubmit="editarUsuario(event)" novalidate >
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite o seu nome" disabled required />
+                    <input value="<%= usuario.nome %>" type="text" class="form-control" name="nome" id="nome" placeholder="Digite o seu nome" disabled required />
                     <label for="nome">Nome</label>
                     <div class="invalid-feedback">
                       Campo obrigatório!
                     </div>
                   </div>
+                  <div class="formulario__rodape">
+                    <button type="button" class="btn btn-primary" onclick="habilitarFormulario('formNome')">Editar</button>
+                  </div>
+                  <div class="formulario__rodape formulario__rodape--edit">
+                    <button type="button" class="btn btn-light" onclick="desabilitarFormulario('formNome')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                  </div>
+                </form>
+                <p class="h4 mb-3">Informações de acesso</p>
+                <hr />
+                <form id="formEmail" class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
+                  <p class="fw-bold mb-2">
+                    Alterar e-mail
+                    <i class="fa-solid fa-circle-info" title="Será necessário confirmar a alteração via e-mail!"></i>
+                  </p>
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" minlength="4" name="username" id="username" placeholder="Digite o seu nome de usuário" disabled required />
+                    <input value="<%= usuario.email %>" type="email" class="form-control" name="email" id="email" placeholder="Digite o seu e-mail" disabled required />
+                    <label for="email">E-mail</label>
+                    <div class="invalid-feedback">
+                      Preencha com um e-mail válido!
+                    </div>
+                  </div>
+                  <div class="formulario__rodape">
+                    <button type="button" class="btn btn-primary">Alterar e-mail</button>
+                  </div>
+                </form>
+                <form id="formUsername" class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
+                  <p class="fw-bold mb-2">
+                    Alterar nome de usuário
+                    <i class="fa-solid fa-circle-info" title="Será necessário confirmar a alteração via e-mail!"></i>
+                  </p>
+                  <div class="form-floating mb-3">
+                    <input value="<%= usuario.username %>" type="text" class="form-control" minlength="4" name="username" id="username" placeholder="Digite o seu nome de usuário" disabled required />
                     <label for="username">Nome de usuário</label>
                     <div class="invalid-feedback">
                       O nome de usuário deve ter pelo menos 4 caracteres!
                     </div>
                   </div>
                   <div class="formulario__rodape">
-                    <button type="button" class="btn btn-primary" onclick="habilitarFormulario()">Editar</button>
-                  </div>
-                  <div class="formulario__rodape formulario__rodape--edit">
-                    <button type="button" class="btn btn-light" onclick="desabilitarFormulario()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-primary">Alterar nome de usuário</button>
                   </div>
                 </form>
             </div>
@@ -63,22 +96,28 @@
     </main>
 
     <%- include('../partials/_scripts') %>
-    <%- include('../partials/_scriptsAuthentication') %>
     
-    <script src="/scripts/CRUD/listaCRUD.js"></script>
+    <script src="/scripts/CRUD/usuarioCRUD.js"></script>
 
     <script>
-      function habilitarFormulario() {
-        $('#nome').prop('disabled', false)
-        $('#username').prop('disabled', false)
-        $('#formEditarUsuario').addClass('formulario--aberto')
+      function habilitarFormulario(formId) {
+        var form = $(`#${formId}`)
+        form.find('input, select, textarea').prop('disabled', false)
+        form.addClass('formulario--aberto')
+        // $('#nome').prop('disabled', false)
+        // $('#username').prop('disabled', false)
+        // $('#formEditarUsuario').addClass('formulario--aberto')
       }
 
-      function desabilitarFormulario() {
-        document.getElementById('formEditarUsuario').reset()
-        $('#nome').prop('disabled', true)
-        $('#username').prop('disabled', true)
-        $('#formEditarUsuario').removeClass('formulario--aberto')
+      function desabilitarFormulario(formId) {
+        document.getElementById(formId).reset()
+        var form = $(`#${formId}`)
+        form.find('input, select, textarea').prop('disabled', true)
+        form.removeClass('formulario--aberto')
+        // document.getElementById('formEditarUsuario').reset()
+        // $('#nome').prop('disabled', true)
+        // $('#username').prop('disabled', true)
+        // $('#formEditarUsuario').removeClass('formulario--aberto')
       }
     </script>
 

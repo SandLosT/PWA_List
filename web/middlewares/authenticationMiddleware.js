@@ -15,9 +15,6 @@ exports.authentication = (request, response, next) => {
             request.isAuthenticated = false
         }
     }
-    
-    // console.log(request.path)
-    // console.log(request.isAuthenticated)
 
     if (request.path != '/' && !request.path.includes('/auth') && !request.isAuthenticated) {
         return response.redirect('/auth/login')
