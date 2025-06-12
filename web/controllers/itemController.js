@@ -1,179 +1,161 @@
-var express = require('express')
-var router = express.Router()
-var db = require('../test/inMemoryDb')
+const express = require('express')
+const router = express.Router()
+const settings = require('../settings.json')
+const API_BASIC_ADDRESS = settings.servers['PWA_List.API'].address.basicAddress
 
-var ID_SEQUENCIAL = 0
+router.get('/pesquisar/:itemId/lista/:listaId', async (req, res) => {
+    const token = req.cookies.token
+    
+    const response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        method: 'get'
+    })
 
-router.get('/pesquisarPorId/:id', (req, res) => {
-    var lista = db.listas.find(lista => lista.itens.some(item => item.id == req.params.id))
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
+    }
 
-    var item = lista.itens.find(item => item.id == req.params.id)
+    const item = await response.json()
 
     res.json(item)
 })
 
-router.post('/criar', (req, res) => {
-    if (!req.body) {
-        res.status(400).json({
-            titulo: 'Dados inválidos',
-            mensagem: 'A requisição deve ter corpo!',
-            timespan: new Date().getTime()
+router.post('/criar/:listaId', async (req, res) => {
+    const token = req.cookies.token
+    const { nome, quantidade, preco } = req.body
+
+    const response = await fetch(API_BASIC_ADDRESS + '/api/itens/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        method: 'post',
+        body: JSON.stringify({
+            nome: nome,
+            quantidade: quantidade,
+            preco: preco
         })
-        return
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
-
-    var body = req.body
-
-    console.log(body)
-
-    var item = {
-        id: ++ID_SEQUENCIAL,
-        nome: body.nome,
-        quantidade: parseInt(body.quantidade),
-        preco: parseFloat(body.preco),
-        listaId: body.listaId
-    }
-
-    var index = db.listas.findIndex(lista => lista.id == body.listaId)
-
-    if (index == -1) {
-        res.status(404).json({
-            titulo: "Não encontrado",
-            mensagem: `A lista com id ${body.listaId} não existe!`,
-            timespan: new Date().getTime()
-        })
-        return
-    }
-
-    var lista = db.listas.at(index)
-    lista.itens.push(item)
-
-    db.listas[index] = lista
 
     res.status(201).send()
 })
 
-router.put('/editar/:id', (req, res) => {
-    if (!req.body) {
-        res.status(400).json({
-            titulo: 'Dados inválidos',
-            mensagem: 'A requisição deve ter corpo!',
-            timespan: new Date().getTime()
+router.put('/editar/:itemId/lista/:listaId', async (req, res) => {
+    const token = req.cookies.token
+    const { nome, quantidade, preco } = req.body
+
+    const response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        method: 'put',
+        body: JSON.stringify({
+            nome: nome,
+            quantidade: quantidade,
+            preco: preco
         })
-        return
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
-
-    var body = req.body
-
-    var listaIndex = db.listas.findIndex(lista => lista.itens.some(item => item.id == req.params.id))
-
-    if (listaIndex == -1) {
-        res.status(404).json({
-            titulo: "Não encontrado",
-            mensagem: `A lista com id ${body.listaId} não existe!`,
-            timespan: new Date().getTime()
-        })
-        return
-    }
-
-    var lista = db.listas.at(listaIndex)
-
-    var itemIndex = lista.itens.findIndex(item => item.id == req.params.id)
-    var item = lista.itens.at(itemIndex)
-    item.nome = body.nome
-    item.quantidade = parseInt(body.quantidade)
-    item.preco = parseFloat(body.preco)
-
-    lista.itens[itemIndex] = item
-    db.listas[listaIndex] = lista
 
     res.status(200).send()
 })
 
-router.post('/diminuir/:id', (req, res) => {
-    var listaIndex = db.listas.findIndex(lista => lista.itens.some(item => item.id == req.params.id))
+router.put('/diminuir/:itemId/lista/:listaId', async (req, res) => {
+    const token = req.cookies.token
 
-    if (listaIndex == -1) {
-        if (!req.body) {
-            res.status(404).json({
-                titulo: "Não encontrado",
-                mensagem: `O item com id ${req.params.id} não existe!`,
-                timespan: new Date().getTime()
-            })
-            return
-        }
+    var response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        method: 'get'
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
 
-    var lista = db.listas.at(listaIndex)
-
-    var itemIndex = lista.itens.findIndex(item => item.id == req.params.id)
-    var item = lista.itens.at(itemIndex)
+    const item = await response.json()
 
     if ((item.quantidade - 1) < 0) {
-        item.quantidade = 0
-    } else {
-        item.quantidade = parseInt(item.quantidade) - 1
+        return res.status(200).send()
     }
 
-    lista.itens[itemIndex] = item
-
-    db.listas[listaIndex] = lista
-
-    res.status(200).json({
-        quantidade: item.quantidade
+    response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        method: 'put',
+        body: JSON.stringify({
+            quantidade: parseInt(item.quantidade) - 1
+        })
     })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
+    }
+
+    res.status(200).send()
 })
 
-router.post('/aumentar/:id', (req, res) => {
-    var listaIndex = db.listas.findIndex(lista => lista.itens.some(item => item.id == req.params.id))
+router.put('/aumentar/:itemId/lista/:listaId', async (req, res) => {
+    const token = req.cookies.token
 
-    if (listaIndex == -1) {
-        if (!req.body) {
-            res.status(404).json({
-                titulo: "Não encontrado",
-                mensagem: `O item com id ${req.params.id} não existe!`,
-                timespan: new Date().getTime()
-            })
-            return
-        }
+    var response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        method: 'get'
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
 
-    var lista = db.listas.at(listaIndex)
+    const item = await response.json()
 
-    var itemIndex = lista.itens.findIndex(item => item.id == req.params.id)
-    var item = lista.itens.at(itemIndex)
-
-    item.quantidade = parseInt(item.quantidade) + 1
-
-    lista.itens[itemIndex] = item
-
-    db.listas[listaIndex] = lista
-
-    res.status(200).json({
-        quantidade: item.quantidade
+    response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        method: 'put',
+        body: JSON.stringify({
+            quantidade: parseInt(item.quantidade) + 1
+        })
     })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
+    }
+
+    res.status(200).send()
 })
 
-router.delete('/excluir/:id', (req, res) => {
-    var listaIndex = db.listas.findIndex(lista => lista.itens.some(item => item.id == req.params.id))
+router.delete('/excluir/:itemId/lista/:listaId', async (req, res) => {
+    const token = req.cookies.token
 
-    if (listaIndex == -1) {
-        if (!req.body) {
-            res.status(404).json({
-                titulo: "Não encontrado",
-                mensagem: `O item com id ${req.params.id} não existe!`,
-                timespan: new Date().getTime()
-            })
-            return
-        }
+    const response = await fetch(API_BASIC_ADDRESS + '/api/itens/' + req.params.itemId + '/lista/' + req.params.listaId, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        method: 'delete'
+    })
+
+    if (!response.ok) {
+        return res.status(response.status).json({ error: `Erro(${response.status}): ${response.statusText}` })
     }
-
-    var lista = db.listas.at(listaIndex)
-
-    var itemIndex = lista.itens.findIndex(item => item.id == req.params.id)
-    lista.itens.splice(itemIndex, 1)
-
-    db.listas[listaIndex] = lista
 
     res.status(204).send()
 })

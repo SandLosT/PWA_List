@@ -18,7 +18,10 @@ async function login(e) {
             contentType: "application/json"
         }).done(function () {
             window.location.href = '/lista'
-        }).fail(function (jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, statusText, errorThrown) {
+            // console.log(jqXHR)
+            // console.log(statusText)
+            // console.log(errorThrown)
             if (jqXHR.status == 401) {
                 Swal.fire({
                     title: "Atenção",

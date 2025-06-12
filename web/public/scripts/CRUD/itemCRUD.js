@@ -3,25 +3,17 @@ function criarItem(e) {
 
     e.target.classList.add("was-validated")
 
-    var listaId = document.getElementById("listaId").value
     var form = document.getElementById("formCriarItem")
     var formData = new FormData(form)
 
-    // debug
-    console.log(listaId)
-    console.log(formData.get("nome"))
-    console.log(parseInt(formData.get("quantidade")))
-    console.log(parseFloat(formData.get("preco")))
-
     if (e.target.checkValidity()) {
         $.ajax({
-            url: "/item/criar",
+            url: '/item/criar/' + formData.get("listaId"),
             type: "post",
             data: JSON.stringify({
                 nome: formData.get("nome"),
                 quantidade: parseInt(formData.get("quantidade")),
-                preco: parseFloat(formData.get("preco")),
-                listaId: listaId
+                preco: parseFloat(formData.get("preco"))
             }),
             contentType: "application/json"
         }).done(function () {
@@ -54,14 +46,12 @@ function editarItem(e) {
 
     if (e.target.checkValidity()) {
         $.ajax({
-            url: "/item/editar/" + formData.get('id'),
+            url: "/item/editar/" + formData.get('id') + '/lista/' + formData.get('listaId'),
             type: "put",
             data: JSON.stringify({
-                id: formData.get('id'),
                 nome: formData.get('nome'),
                 quantidade: parseInt(formData.get('quantidade')),
-                preco: parseFloat(formData.get('preco')),
-                listaId: formData.get('listaId')
+                preco: parseFloat(formData.get('preco'))
             }),
             contentType: "application/json"
         }).done(function () {
@@ -72,7 +62,10 @@ function editarItem(e) {
             }).then(function () {
                 window.location.reload()
             })
-        }).fail(function () {
+        }).fail(function (jqXHR, statusText, errorThrown) {
+            // console.log(jqXHR)
+            // console.log(statusText)
+            // console.log(errorThrown)
             Swal.fire({
                 title: "Erro",
                 text: "Ocorreu um erro ao editar o item!",
@@ -84,29 +77,41 @@ function editarItem(e) {
     }
 }
 
-function diminuirItem(id) {
+function diminuirItem(listaId, itemId) {
     $.ajax({
-        url: "/item/diminuir/" + id,
-        type: "post"
-    }).done(function (resultado) {
-        $(`#item${id}`).val(resultado.quantidade)
-    }).fail(function () {
+        url: "/item/diminuir/" + itemId + '/lista/' + listaId,
+        type: "put"
+    }).done(function () {
+        var quantidade = $(`#item${itemId}`).val()
+        if (quantidade - 1 < 0) {
+            $(`#item${itemId}`).val(0)
+        } else {
+            $(`#item${itemId}`).val(parseInt(quantidade) - 1)
+        }
+    }).fail(function (jqXHR, statusText, errorThrown) {
+        // console.log(jqXHR)
+        // console.log(statusText)
+        // console.log(errorThrown)
         window.location.reload()
     })
 }
 
-function aumentarItem(id) {
+function aumentarItem(listaId, itemId) {
     $.ajax({
-        url: "/item/aumentar/" + id,
-        type: "post"
-    }).done(function (resultado) {
-        $(`#item${id}`).val(resultado.quantidade)
-    }).fail(function () {
+        url: "/item/aumentar/" + itemId + '/lista/' + listaId,
+        type: "put"
+    }).done(function () {
+        var quantidade = $(`#item${itemId}`).val()
+        $(`#item${itemId}`).val(parseInt(quantidade) + 1)
+    }).fail(function (jqXHR, statusText, errorThrown) {
+        // console.log(jqXHR)
+        // console.log(statusText)
+        // console.log(errorThrown)
         window.location.reload()
     })
 }
 
-function excluirItem(id) {
+function excluirItem(listaId, itemId) {
     Swal.fire({
         title: "Tem certeza que deseja excluir o item?",
         text: "Não será possível desfazer esta ação!",
@@ -120,7 +125,7 @@ function excluirItem(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/item/excluir/" + id,
+                url: "/item/excluir/" + itemId + "/lista/" + listaId,
                 type: "delete"
             }).done(function () {
                 Swal.fire({

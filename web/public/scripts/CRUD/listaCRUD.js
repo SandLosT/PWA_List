@@ -23,9 +23,9 @@ function criarLista(e) {
                 window.location.reload()
             })
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR)
-            console.log(textStatus)
-            console.log(errorThrown)
+            // console.log(jqXHR)
+            // console.log(textStatus)
+            // console.log(errorThrown)
             Swal.fire({
                 title: "Erro",
                 text: "Ocorreu um erro ao criar a lista!",
@@ -98,9 +98,9 @@ function excluirLista(id) {
                     window.location.reload()
                 })
             }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR)
-                console.log(textStatus)
-                console.log(errorThrown)
+                // console.log(jqXHR)
+                // console.log(textStatus)
+                // console.log(errorThrown)
                 Swal.fire({
                     title: "Erro!",
                     text: "Não foi possível excluir a lista!",

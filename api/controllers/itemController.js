@@ -6,7 +6,11 @@ module.exports = {
 
       const { nome, quantidade, preco } = req.body;
 
-      await itemService.create(req.params.listaId, { nome, quantidade, preco });
+      await itemService.create(req.params.listaId, {
+        nome,
+        quantidade: quantidade < 0 ? 0 : quantidade,
+        preco
+      });
 
       res.status(201).json();
     } catch (error) {
@@ -28,13 +32,14 @@ module.exports = {
 
       item.nome = nome ?? item.nome;
       item.quantidade = quantidade ?? item.quantidade;
+      item.quantidade = parseInt(item.quantidade) < 0 ? 0 : item.quantidade;
       item.preco = preco ?? item.preco;
       
-      await itemService.update(req.params.listaId, req.body.itemId, item);
+      await itemService.update(req.params.listaId, req.params.itemId, item);
 
       res.status(200).json();
     } catch (error) {
-
+      
       res.status(500).json({ error: 'Erro ao atualizar item' });
     }
   },

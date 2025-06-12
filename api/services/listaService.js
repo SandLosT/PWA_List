@@ -1,16 +1,36 @@
 const listaRepository = require('../repositories/listaRepository');
+const itensRepository = require('../repositories/itemRepository');
 
 module.exports = {
   findAll: async () => {
-    return await listaRepository.findAll();
+    var listas = await listaRepository.findAll();
+    return await Promise.all(listas.map(async (lista) => {
+      var itens = await itensRepository.findByList(lista.id);
+      return {
+        ...lista,
+        itens: itens
+      }
+    }));
   },
 
   findById: async (id) => {
-    return await listaRepository.findById(id);
+    var lista = await listaRepository.findById(id);
+    var itens = await itensRepository.findByList(lista.id);
+    return {
+      ...lista,
+      itens: itens
+    }
   },
 
   findByUserId: async (usuarioId) => {
-    return await listaRepository.findByUserId(usuarioId);
+    var listas = await listaRepository.findByUserId(usuarioId);
+    return await Promise.all(listas.map(async (lista) => {
+      var itens = await itensRepository.findByList(lista.id);
+      return {
+        ...lista,
+        itens: itens
+      }
+    }));
   },
 
   create: async (dados) => {

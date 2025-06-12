@@ -21,10 +21,7 @@ router.get('/:id', async (req, res) => {
     
     res.render('lista/visualizar', {
         isAuthenticated: req.isAuthenticated,
-        lista: {
-            itens: [],
-            ...lista
-        }
+        lista: lista
     })
 })
 

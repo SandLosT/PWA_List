@@ -27,16 +27,10 @@ module.exports = {
 
   findByUserId: async (usuarioId) => {
     const snapshot = await db.collection('listas').where('usuarioId', '==', usuarioId).get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...Lista.fromFirestore(doc.data()) }));
   },
 
   delete: async (id) => {
-    
-    // await db.collection('listas').doc(id)
-    //   .collection('itens')
-    //   .listDocuments()
-    //   .forEach(x => x.delete());
-
     await db.collection('listas').doc(id).delete();
   }
 };

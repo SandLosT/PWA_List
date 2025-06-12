@@ -9,8 +9,8 @@
       <div class="modal-body">
         <form id="formEditarItem" class="formulario formulario--pequeno p-0 needs-validation"
           onsubmit="editarItem(event)" novalidate>
-          <input name="id" type="hidden" />
-          <input name="listaId" type="hidden" />
+          <input type="hidden" name="id" />
+          <input type="hidden" name="listaId" value="<%= listaId %>" />
           <div class="form-floating mb-3">
             <input type="text" class="form-control" name="nome" id="formEditarItemNome"
               placeholder="Digite o nome do item" required />

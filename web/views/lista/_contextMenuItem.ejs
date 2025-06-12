@@ -4,13 +4,13 @@
     </button>
     <ul class="dropdown-menu">
         <li>
-            <button type="button" class="btn dropdown-item" onclick="abrirModalEditarItem('<%= id %>')">
+            <button type="button" class="btn dropdown-item" onclick="abrirModalEditarItem('<%= listaId %>', '<%= itemId %>')">
                 <i class="fa-solid fa-pen me-2"></i>
                 Editar
             </button>
         </li>
         <li>
-            <button type="button" class="btn dropdown-item" onclick="excluirItem('<%= id %>')">
+            <button type="button" class="btn dropdown-item" onclick="excluirItem('<%= listaId %>', '<%= itemId %>')">
                 <i class="fa-solid fa-trash me-2"></i>
                 Excluir
             </button>

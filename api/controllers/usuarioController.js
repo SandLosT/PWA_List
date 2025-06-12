@@ -61,6 +61,14 @@ module.exports = {
         return res.status(404).json({ error: 'Usuário não encontrado' });
       }
 
+      if (email && await usuarioService.existsByEmail(email)) {
+        res.status(400).json({ error: 'E-mail já existe' });
+      }
+
+      if (username && await usuarioService.existsByUsername(username)) {
+        res.status(400).json({ error: 'Nome de usuário já existe' });
+      }
+      
       usuario.nome = nome ?? usuario.nome;
       usuario.email = email ?? usuario.email;
       usuario.username = username ?? usuario.username;
@@ -73,7 +81,7 @@ module.exports = {
 
       res.status(200).json();
     } catch (error) {
-
+      
       res.status(500).json({ error: 'Erro ao atualizar usuário' });
     }
   },
