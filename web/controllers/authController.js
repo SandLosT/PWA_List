@@ -119,8 +119,8 @@ router.get('/existe/username/:username', async (req, res) => {
 router.get('/logout', (req, res) => {
     res.cookie('token', '', {
         httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
+        secure: false,
+        sameSite: 'lax',
         expires: new Date(0),
         maxAge: 0
     });

@@ -41,7 +41,7 @@
     .etiqueta__titulo {
         cursor: pointer;
         font-weight: bold;
-        min-width: 70%;
+        max-width: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

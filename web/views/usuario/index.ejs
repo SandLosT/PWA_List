@@ -57,7 +57,7 @@
                 </form>
                 <p class="h4 mb-3">Informações de acesso</p>
                 <hr />
-                <form id="formEmail" class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
+                <form class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
                   <p class="fw-bold mb-2">
                     Alterar e-mail
                     <i class="fa-solid fa-circle-info" title="Será necessário confirmar a alteração via e-mail!"></i>
@@ -70,10 +70,10 @@
                     </div>
                   </div>
                   <div class="formulario__rodape">
-                    <button type="button" class="btn btn-primary">Alterar e-mail</button>
+                    <button type="button" class="btn btn-primary" onclick="abrirModalAlterarEmail()">Alterar e-mail</button>
                   </div>
                 </form>
-                <form id="formUsername" class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
+                <form class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
                   <p class="fw-bold mb-2">
                     Alterar nome de usuário
                     <i class="fa-solid fa-circle-info" title="Será necessário confirmar a alteração via e-mail!"></i>
@@ -86,7 +86,7 @@
                     </div>
                   </div>
                   <div class="formulario__rodape">
-                    <button type="button" class="btn btn-primary">Alterar nome de usuário</button>
+                    <button type="button" class="btn btn-primary" onclick="abrirModalAlterarUsername()">Alterar nome de usuário</button>
                   </div>
                 </form>
             </div>
@@ -94,6 +94,10 @@
         </section>
       </article>
     </main>
+    
+    <%- include('./_modalAlterarSenha') %>
+    <%- include('./_modalAlterarEmail', { email: usuario.email }) %>
+    <%- include('./_modalAlterarUsername', { username: usuario.username }) %>
 
     <%- include('../partials/_scripts') %>
     
@@ -104,9 +108,6 @@
         var form = $(`#${formId}`)
         form.find('input, select, textarea').prop('disabled', false)
         form.addClass('formulario--aberto')
-        // $('#nome').prop('disabled', false)
-        // $('#username').prop('disabled', false)
-        // $('#formEditarUsuario').addClass('formulario--aberto')
       }
 
       function desabilitarFormulario(formId) {
@@ -114,10 +115,46 @@
         var form = $(`#${formId}`)
         form.find('input, select, textarea').prop('disabled', true)
         form.removeClass('formulario--aberto')
-        // document.getElementById('formEditarUsuario').reset()
-        // $('#nome').prop('disabled', true)
-        // $('#username').prop('disabled', true)
-        // $('#formEditarUsuario').removeClass('formulario--aberto')
+      }
+
+      function abrirModalAlterarSenha() {
+        $('#modalAlterarSenha').modal('show')
+      }
+
+      function abrirModalAlterarEmail() {
+        $('#modalAlterarEmail').modal('show')
+      }
+
+      function abrirModalAlterarUsername() {
+        $('#modalAlterarUsername').modal('show')
+      }
+
+      function validarSenha() {
+        var senha = document.getElementById("senha").value
+
+        if (senha == document.getElementById("confirmarSenha").value) {
+          $("#validacao-confirmarSenha").prop("checked", true)
+        } else {
+          $("#validacao-confirmarSenha").prop("checked", false)
+        }
+
+        if (/[a-zA-Z]/.test(senha)) {
+          $("#validacao-letra").prop("checked", true)
+        } else {
+          $("#validacao-letra").prop("checked", false)
+        }
+
+        if (/[0-9@#?!]/.test(senha)) {
+          $("#validacao-numero").prop("checked", true)
+        } else {
+          $("#validacao-numero").prop("checked", false)
+        }
+
+        if (senha.length >= 6) {
+          $("#validacao-tamanho").prop("checked", true)
+        } else {
+          $("#validacao-tamanho").prop("checked", false)
+        }
       }
     </script>
 

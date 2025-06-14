@@ -116,9 +116,6 @@ router.put('/editar/:id', async (req, res) => {
 router.delete('/excluir/:id', async (req, res) => {
     const token = req.cookies.token
 
-    console.log({token})
-    console.log({listaId: req.params.id})
-
     const response = await fetch(API_BASIC_ADDRESS + '/api/listas/' + req.params.id, {
         headers: {
             'Authorization': `Bearer ${token}`,
