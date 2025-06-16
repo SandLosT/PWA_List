@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Make It List - Meu perfil</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles/module/Formulario.css" />
+    <%- include('../partials/_styles') %>
+    <style>
+      .swal2-cancel {
+        color: black;
+      }
+    </style>
+</head>
+
+<body>
+   
+    <%- include('../partials/_header', isAuthenticated) %>
+
+    <main class="position-relative">
+      <article class="d-flex flex-column px-3">
+        <section class="d-flex flex-column flex-fill">
+          <div>
+            <div class="d-flex align-items-center justify-content-between mt-3 mb-3">
+                <div class="d-flex align-items-center">
+                  <a class="btn btn-ligth" href="/">
+                    <i class="fa-solid fa-arrow-left"></i>
+                  </a>
+                  <h3 class="m-0">Meu perfil</h3>
+              </div>
+              <%- include('./_contextMenuUsuario') %>
+            </div>
+            <hr />
+          </div>
+          <div class="flex-fill">
+            <div class="container p-0 pt-3" style="max-width: 500px;padding-bottom:80px !important;">
+                <p class="h4 mb-3">Informações pessoais</p>
+                <hr />
+                <form id="formNome" class="formulario p-0 needs-validation" onsubmit="editarUsuario(event)" novalidate >
+                  <div class="form-floating mb-3">
+                    <input value="<%= usuario.nome %>" type="text" class="form-control" name="nome" id="nome" placeholder="Digite o seu nome" disabled required />
+                    <label for="nome">Nome</label>
+                    <div class="invalid-feedback">
+                      Campo obrigatório!
+                    </div>
+                  </div>
+                  <div class="formulario__rodape">
+                    <button type="button" class="btn btn-primary" onclick="habilitarFormulario('formNome')">Editar</button>
+                  </div>
+                  <div class="formulario__rodape formulario__rodape--edit">
+                    <button type="button" class="btn btn-light" onclick="desabilitarFormulario('formNome')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                  </div>
+                </form>
+                <p class="h4 mb-3">Informações de acesso</p>
+                <hr />
+                <form class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
+                  <p class="fw-bold mb-2">
+                    Alterar e-mail
+                    <i class="fa-solid fa-circle-info" title="Será necessário confirmar a alteração via e-mail!"></i>
+                  </p>
+                  <div class="form-floating mb-3">
+                    <input value="<%= usuario.email %>" type="email" class="form-control" name="email" id="email" placeholder="Digite o seu e-mail" disabled required />
+                    <label for="email">E-mail</label>
+                    <div class="invalid-feedback">
+                      Preencha com um e-mail válido!
+                    </div>
+                  </div>
+                  <div class="formulario__rodape">
+                    <button type="button" class="btn btn-primary" onclick="abrirModalAlterarEmail()">Alterar e-mail</button>
+                  </div>
+                </form>
+                <form class="formulario p-0 needs-validation" onsubmit="return false" novalidate >
+                  <p class="fw-bold mb-2">
+                    Alterar nome de usuário
+                    <i class="fa-solid fa-circle-info" title="Será necessário confirmar a alteração via e-mail!"></i>
+                  </p>
+                  <div class="form-floating mb-3">
+                    <input value="<%= usuario.username %>" type="text" class="form-control" minlength="4" name="username" id="username" placeholder="Digite o seu nome de usuário" disabled required />
+                    <label for="username">Nome de usuário</label>
+                    <div class="invalid-feedback">
+                      O nome de usuário deve ter pelo menos 4 caracteres!
+                    </div>
+                  </div>
+                  <div class="formulario__rodape">
+                    <button type="button" class="btn btn-primary" onclick="abrirModalAlterarUsername()">Alterar nome de usuário</button>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </section>
+      </article>
+    </main>
+    
+    <%- include('./_modalAlterarSenha') %>
+    <%- include('./_modalAlterarEmail', { email: usuario.email }) %>
+    <%- include('./_modalAlterarUsername', { username: usuario.username }) %>
+
+    <%- include('../partials/_scripts') %>
+    
+    <script src="/scripts/CRUD/usuarioCRUD.js"></script>
+
+    <script>
+      function habilitarFormulario(formId) {
+        var form = $(`#${formId}`)
+        form.find('input, select, textarea').prop('disabled', false)
+        form.addClass('formulario--aberto')
+      }
+
+      function desabilitarFormulario(formId) {
+        document.getElementById(formId).reset()
+        var form = $(`#${formId}`)
+        form.find('input, select, textarea').prop('disabled', true)
+        form.removeClass('formulario--aberto')
+      }
+
+      function abrirModalAlterarSenha() {
+        $('#modalAlterarSenha').modal('show')
+      }
+
+      function abrirModalAlterarEmail() {
+        $('#modalAlterarEmail').modal('show')
+      }
+
+      function abrirModalAlterarUsername() {
+        $('#modalAlterarUsername').modal('show')
+      }
+
+      function validarSenha() {
+        var senha = document.getElementById("senha").value
+
+        if (senha == document.getElementById("confirmarSenha").value) {
+          $("#validacao-confirmarSenha").prop("checked", true)
+        } else {
+          $("#validacao-confirmarSenha").prop("checked", false)
+        }
+
+        if (/[a-zA-Z]/.test(senha)) {
+          $("#validacao-letra").prop("checked", true)
+        } else {
+          $("#validacao-letra").prop("checked", false)
+        }
+
+        if (/[0-9@#?!]/.test(senha)) {
+          $("#validacao-numero").prop("checked", true)
+        } else {
+          $("#validacao-numero").prop("checked", false)
+        }
+
+        if (senha.length >= 6) {
+          $("#validacao-tamanho").prop("checked", true)
+        } else {
+          $("#validacao-tamanho").prop("checked", false)
+        }
+      }
+    </script>
+
+</body>
+
+</html>

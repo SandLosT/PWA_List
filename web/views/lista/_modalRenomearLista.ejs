@@ -1,0 +1,29 @@
+<div class="modal fade" id="modalRenomearLista" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalRenomearListaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered align-items-end">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalRenomearListaLabel">Renomear lista</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formRenomearLista" class="formulario formulario--pequeno p-0 needs-validation"
+          onsubmit="editarLista(event)" novalidate>
+          <input name="id" type="hidden" />
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="nome" id="formRenomearListaNome"
+              placeholder="Digite um nome para a lista" required />
+            <label for="formRenomearListaNome">Digite um nome para a lista</label>
+            <div class="invalid-feedback">
+              Campo obrigatório!
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" style="border:none" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn botao" onclick="submitForm('formRenomearLista')">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
