@@ -2,7 +2,9 @@ const dotenv = require('dotenv');
 const admin = require('firebase-admin');
 const zlib = require('zlib');
 
-dotenv.config({ path: '../.env.firebase' });
+if (!process.env.RENDER) {
+  require('dotenv').config({ path: '../.env.firebase' });
+}
 
 if (!process.env.CHAVE_FIREBASE_KEY) {
   throw new Error('Variável CHAVE_FIREBASE_KEY não encontrada no .env.firebase');
