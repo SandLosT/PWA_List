@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.1 (Python 3.9.0 on win32)" generated="2025-06-22T15:11:16.229985" rpa="false" schemaversion="5">
+<suite id="s1" name="Ct015" source="C:\Users\dougb\Desenvolvimento\PWA_List\test\tests\ct015">
+<suite id="s1-s1" name="Cenario1" source="C:\Users\dougb\Desenvolvimento\PWA_List\test\tests\ct015\cenario1.robot">
+<test id="s1-s1-t1" name="Cenário 1: Confirmar exclusão" line="6">
+<kw name="Abrir a página de login">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:16.587990" level="INFO">Opening browser 'chrome' to base url 'http://localhost:8081/auth/login'.</msg>
+<arg>${LOGIN_URL}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-06-22T15:11:16.586986" elapsed="1.387660"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-06-22T15:11:17.974646" elapsed="0.029998"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:16.585995" elapsed="1.418649"/>
+</kw>
+<kw name="Inserir as credenciais válidas">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:18.005647" level="INFO">Typing text 'douglas@gmail.com' into text field 'id=email'.</msg>
+<arg>id=email</arg>
+<arg>${EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:18.004644" elapsed="0.090002"/>
+</kw>
+<kw name="Input Password" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:18.095645" level="INFO">Typing password into text field 'id=senha'.</msg>
+<msg time="2025-06-22T15:11:18.122645" level="INFO">Temporally setting log level to: NONE</msg>
+<arg>id=senha</arg>
+<arg>${SENHA}</arg>
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:18.095645" elapsed="0.063003"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:18.158648" level="INFO">Clicking button 'xpath=//button[@type = "submit"]'.</msg>
+<arg>xpath=//button[@type = "submit"]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:18.158648" elapsed="0.062998"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:18.004644" elapsed="0.217002"/>
+</kw>
+<kw name="Clicar no nome de uma lista">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=(//*[@class = "etiqueta__titulo"])[1]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:18.222645" elapsed="0.768463"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:18.991108" level="INFO">Clicking element 'xpath=(//*[@class = "etiqueta__titulo"])[1]'.</msg>
+<arg>xpath=(//*[@class = "etiqueta__titulo"])[1]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:18.991108" elapsed="0.540414"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:18.221646" elapsed="1.309876"/>
+</kw>
+<kw name="Selecionar um item">
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-22T15:11:21.547056" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-22T15:11:19.532522" elapsed="2.014534"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[@data-bs-toggle="dropdown"])[1]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.547056" elapsed="0.014964"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:21.563020" level="INFO">Clicking button 'xpath=(//div[contains(@class, "etiqueta--item")]//button[@data-bs-toggle = "dropdown"])[1]'.</msg>
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[@data-bs-toggle = "dropdown"])[1]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.563020" elapsed="0.053000"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:19.532522" elapsed="2.083498"/>
+</kw>
+<kw name="Clicar na opção &quot;Excluir&quot;">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[contains(@class, "dropdown-item")])[2]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.617021" elapsed="0.013000"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:21.630021" level="INFO">Clicking button 'xpath=(//div[contains(@class, "etiqueta--item")]//button[contains(@class, "dropdown-item")])[2]'.</msg>
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[contains(@class, "dropdown-item")])[2]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.630021" elapsed="0.061036"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:21.617021" elapsed="0.075000"/>
+</kw>
+<kw name="Confirmar exclusão">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//button[contains(@class, "swal2-confirm")]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.692021" elapsed="0.013001"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:21.706022" level="INFO">Clicking button 'xpath=//button[contains(@class, "swal2-confirm")]'.</msg>
+<arg>xpath=//button[contains(@class, "swal2-confirm")]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.706022" elapsed="0.055998"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:21.692021" elapsed="0.069999"/>
+</kw>
+<kw name="Deve exibir mensagem de sucesso">
+<kw name="Wait Until Element Contains" owner="SeleniumLibrary">
+<arg>id=swal2-title</arg>
+<arg>Sucesso</arg>
+<doc>Waits until the element ``locator`` contains ``text``.</doc>
+<status status="PASS" start="2025-06-22T15:11:21.763020" elapsed="0.446138"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:21.762020" elapsed="0.447138"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:16.585995" elapsed="5.623163"/>
+</test>
+<status status="PASS" start="2025-06-22T15:11:16.256989" elapsed="5.953198"/>
+</suite>
+<suite id="s1-s2" name="Cenario2" source="C:\Users\dougb\Desenvolvimento\PWA_List\test\tests\ct015\cenario2.robot">
+<test id="s1-s2-t1" name="Cenário 2: Cancelar exclusão" line="6">
+<kw name="Abrir a página de login">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:22.217188" level="INFO">Opening browser 'chrome' to base url 'http://localhost:8081/auth/login'.</msg>
+<arg>${LOGIN_URL}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-06-22T15:11:22.217188" elapsed="1.210214"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-06-22T15:11:23.428402" elapsed="0.037000"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:22.217188" elapsed="1.248214"/>
+</kw>
+<kw name="Inserir as credenciais válidas">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:23.466402" level="INFO">Typing text 'douglas@gmail.com' into text field 'id=email'.</msg>
+<arg>id=email</arg>
+<arg>${EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:23.466402" elapsed="0.110999"/>
+</kw>
+<kw name="Input Password" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:23.578404" level="INFO">Typing password into text field 'id=senha'.</msg>
+<msg time="2025-06-22T15:11:23.605400" level="INFO">Temporally setting log level to: NONE</msg>
+<arg>id=senha</arg>
+<arg>${SENHA}</arg>
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:23.578404" elapsed="0.060998"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:23.640402" level="INFO">Clicking button 'xpath=//button[@type = "submit"]'.</msg>
+<arg>xpath=//button[@type = "submit"]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:23.640402" elapsed="0.065000"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:23.465402" elapsed="0.240000"/>
+</kw>
+<kw name="Clicar no nome de uma lista">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=(//*[@class = "etiqueta__titulo"])[1]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:23.706401" elapsed="0.752412"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:24.459814" level="INFO">Clicking element 'xpath=(//*[@class = "etiqueta__titulo"])[1]'.</msg>
+<arg>xpath=(//*[@class = "etiqueta__titulo"])[1]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:24.458813" elapsed="0.517448"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:23.706401" elapsed="1.269860"/>
+</kw>
+<kw name="Selecionar um item">
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-22T15:11:26.981435" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-22T15:11:24.977261" elapsed="2.004174"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[@data-bs-toggle="dropdown"])[1]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:26.981435" elapsed="0.014001"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:26.995436" level="INFO">Clicking button 'xpath=(//div[contains(@class, "etiqueta--item")]//button[@data-bs-toggle = "dropdown"])[1]'.</msg>
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[@data-bs-toggle = "dropdown"])[1]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:26.995436" elapsed="0.053002"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:24.976261" elapsed="2.073177"/>
+</kw>
+<kw name="Clicar na opção &quot;Excluir&quot;">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[contains(@class, "dropdown-item")])[2]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:27.049438" elapsed="0.013001"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:27.063438" level="INFO">Clicking button 'xpath=(//div[contains(@class, "etiqueta--item")]//button[contains(@class, "dropdown-item")])[2]'.</msg>
+<arg>xpath=(//div[contains(@class, "etiqueta--item")]//button[contains(@class, "dropdown-item")])[2]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:27.062439" elapsed="0.062001"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:27.049438" elapsed="0.075002"/>
+</kw>
+<kw name="Cancelar exclusão">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//button[contains(@class, "swal2-cancel")]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-06-22T15:11:27.124440" elapsed="0.013997"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-06-22T15:11:27.138437" level="INFO">Clicking button 'xpath=//button[contains(@class, "swal2-cancel")]'.</msg>
+<arg>xpath=//button[contains(@class, "swal2-cancel")]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-22T15:11:27.138437" elapsed="0.055003"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:27.124440" elapsed="0.069000"/>
+</kw>
+<status status="PASS" start="2025-06-22T15:11:22.216162" elapsed="4.977278"/>
+</test>
+<status status="PASS" start="2025-06-22T15:11:22.212158" elapsed="4.982281"/>
+</suite>
+<status status="PASS" start="2025-06-22T15:11:16.231956" elapsed="10.963483"/>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Ct015" id="s1" pass="2" fail="0" skip="0">Ct015</stat>
+<stat name="Cenario1" id="s1-s1" pass="1" fail="0" skip="0">Ct015.Cenario1</stat>
+<stat name="Cenario2" id="s1-s2" pass="1" fail="0" skip="0">Ct015.Cenario2</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
